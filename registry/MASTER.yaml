@@ -1,0 +1,133 @@
+# OPUS 67 Master Registry
+# Version: 6.1.0 "Memory Unified"
+# Single source of truth for all OPUS 67 components
+# Generated: 2025-12-09
+
+meta:
+  version: "6.1.0"
+  codename: "Memory Unified"
+  generated: "2025-12-09T00:00:00Z"
+
+  # Component counts (verified via audit)
+  stats:
+    skills: 141
+    agents: 107
+    modes: 30
+    mcps: 83
+    hooks: 9
+    memory_sources: 5
+
+# =============================================================================
+# COMPONENT SOURCES
+# =============================================================================
+
+skills:
+  count: 141
+  source: "../skills/registry.yaml"
+  definitions_path: "../skills/definitions/"
+  metadata_path: "../skills/metadata/"
+  auto_load: true
+  max_per_session: 5
+  token_budget: 50000
+
+agents:
+  count: 107
+  source: "../agents/"
+  definitions_path: "../agents/definitions/"
+  auto_load: false  # Agents load on-demand via Task tool
+
+modes:
+  count: 30
+  source: "../modes/registry.yaml"
+  default: "auto"
+  allow_override: true
+
+mcps:
+  count: 83
+  source: "../mcp/connections.yaml"
+  auto_connect: true
+  timeout_ms: 5000
+  retry_attempts: 3
+
+hooks:
+  count: 9
+  source: "../../../.claude/hooks/"
+  types:
+    - session-start
+    - pre-bash
+    - post-bash
+    - post-write
+    - opus67-auto-detect
+    - opus67-pre-read
+    - opus67-pre-mcp
+    - opus67-pre-agent
+
+memory:
+  count: 5
+  sources:
+    - type: graphiti
+      name: GraphitiMemory
+      description: Graph database for entity relations
+    - type: markdown
+      name: MarkdownLoader
+      description: .claude/memory files
+    - type: learning
+      name: LearningSyncBridge
+      description: Pattern learnings across sessions
+    - type: hmlr
+      name: HMLRAdapter
+      description: Multi-hop reasoning
+    - type: session
+      name: SessionStore
+      description: Session facts and context
+
+# =============================================================================
+# THE DOOR
+# =============================================================================
+
+the_door:
+  source: "../THE_DOOR.md"
+  version: "6.1.0"
+  inject_to:
+    - "CLAUDE.md"
+    - ".claude/CLAUDE.md"
+  marker: "<!-- OPUS 67 THE DOOR -->"
+
+# =============================================================================
+# BOOT CONFIGURATION
+# =============================================================================
+
+boot:
+  entry_point: "../dist/unified-boot.js"
+  sequence:
+    1: load_registry      # Load this MASTER.yaml
+    2: init_memory        # Initialize unified memory
+    3: index_context      # Index workspace
+    4: load_skills        # Load skill registry
+    5: connect_mcps       # Auto-connect MCPs
+    6: inject_door        # Inject THE DOOR
+    7: register_hooks     # Register hooks
+    8: display_status     # Show boot status
+
+  display:
+    show_banner: true
+    show_stats: true
+    show_mode: true
+
+# =============================================================================
+# VERIFICATION
+# =============================================================================
+
+verification:
+  required_files:
+    - "../skills/registry.yaml"
+    - "../modes/registry.yaml"
+    - "../mcp/connections.yaml"
+    - "../THE_DOOR.md"
+    - "../src/boot.ts"
+
+  required_counts:
+    skills: 141
+    agents: 107
+    modes: 30
+    mcps: 83

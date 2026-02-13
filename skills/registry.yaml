@@ -1,0 +1,2293 @@
+# OPUS 67 Skills Registry
+# Version: 6.0.0 "The Unification"
+# Total Skills: 141 (verified via deep audit)
+# Part of OPUS 67 v6.0.0 Unified System
+# Loaded by: packages/opus67/registry/MASTER.yaml
+
+meta:
+  version: "6.0.0"
+  total_skills: 141
+  target_skills: 150
+  auto_load_enabled: true
+  max_skills_per_session: 5
+  token_budget: 50000
+
+  # v4.0 Additions
+  skill_packs: 5       # Bundled skill combinations
+  skill_hints: 15      # MCP-backed lightweight hints (94% token reduction)
+  new_individual: 17   # New lean skills
+  new_mcps: 12         # New MCP connections
+
+  # v5.1 Additions
+  agents: 107          # 107 specialized agents
+  mcps: 82             # 82 MCP connections
+  learning: true       # Auto-learning enabled
+
+  # Token Savings
+  hint_tokens_saved: 85300  # From converting heavy skills to hints
+
+# =============================================================================
+# v4.1 LEARNING LAYER CONFIG
+# =============================================================================
+
+learning_layer:
+  # AContext - Self-learning agent platform
+  acontext:
+    enabled: true
+    api_url: ${ACONTEXT_API_URL:-http://localhost:8029/api/v1}
+    auto_learn: true
+    min_complexity: medium  # Only learn from non-trivial tasks
+    dashboard_port: 3001
+    sync_interval_minutes: 5
+
+  # Skills Search - Vector-based skill discovery
+  skills_search:
+    enabled: true
+    embedding_model: all-MiniLM-L6-v2
+    vector_store: qdrant
+    qdrant_collection: opus67_skills
+    top_k: 5
+    min_score: 0.3
+
+  # Learning Agents
+  agents:
+    learning_observer:
+      enabled: true
+      auto_activate: true
+      min_tool_chain_length: 3
+      auto_sop_threshold: 0.8
+    skills_navigator:
+      enabled: true
+      auto_activate: true
+      auto_activate_threshold: 0.7
+      max_auto_skills: 3
+
+skills:
+  # ===========================================================================
+  # TIER 1: CORE STACK (Always Available)
+  # ===========================================================================
+  
+  - id: solana-anchor-expert
+    name: Solana Anchor Expert
+    tier: 1
+    token_cost: 15000
+    capabilities:
+      - Write production-grade Anchor programs
+      - Design PDA schemas and seeds
+      - Implement CPI (Cross-Program Invocation)
+      - Handle account validation and constraints
+      - Optimize compute units and transaction size
+      - Debug program errors and logs
+    auto_load_when:
+      keywords: [anchor, solana, pda, cpi, program, instruction, devnet]
+      file_types: [.rs]
+      directories: [programs/, anchor/]
+    mcp_connections: [helius, jupiter]
+
+  - id: nextjs-14-expert
+    name: Next.js 14 Expert
+    tier: 1
+    token_cost: 12000
+    capabilities:
+      - Build with App Router and Server Components
+      - Implement Server Actions and API routes
+      - Optimize with streaming and suspense
+      - Handle authentication and middleware
+      - Configure Vercel deployment
+      - Implement proper caching strategies
+      - Build with parallel and intercepting routes
+    auto_load_when:
+      keywords: [nextjs, next, app router, server component, vercel, rsc]
+      file_types: [.tsx, .ts]
+      directories: [app/, components/]
+    mcp_connections: [vercel, github, supabase]
+
+  - id: typescript-senior
+    name: TypeScript Senior
+    tier: 1
+    token_cost: 8000
+    capabilities:
+      - Design complex type systems
+      - Implement generics and utility types
+      - Configure tsconfig for different targets
+      - Build type-safe APIs
+      - Handle conditional types and mapped types
+      - Debug complex type errors
+    auto_load_when:
+      keywords: [typescript, types, generics, interface, type error, infer]
+      file_types: [.ts, .tsx]
+    mcp_connections: []
+
+  - id: rust-systems
+    name: Rust Systems Engineer
+    tier: 1
+    token_cost: 10000
+    capabilities:
+      - Write memory-safe systems code
+      - Implement zero-copy parsing
+      - Handle async with tokio
+      - Optimize for performance
+      - Manage lifetimes and borrowing
+      - Build with cargo workspaces
+    auto_load_when:
+      keywords: [rust, cargo, unsafe, lifetime, borrow]
+      file_types: [.rs]
+    mcp_connections: []
+
+  # ===========================================================================
+  # TIER 2: DOMAIN EXPERTISE
+  # ===========================================================================
+
+  - id: bonding-curve-master
+    name: Bonding Curve Master
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Design curve parameters (slope, intercept)
+      - Calculate price impact and slippage
+      - Implement reserve management
+      - Model token supply dynamics
+    auto_load_when:
+      keywords: [bonding curve, curve, reserve, supply, price impact, pump.fun]
+    mcp_connections: [birdeye, jupiter]
+
+  - id: defi-data-analyst
+    name: DeFi Data Analyst
+    tier: 2
+    token_cost: 10000
+    capabilities:
+      - Query on-chain data
+      - Analyze token holder distribution
+      - Track liquidity pool metrics
+      - Monitor whale movements
+    auto_load_when:
+      keywords: [tvl, volume, liquidity, holders, whale, market cap]
+    mcp_connections: [birdeye, helius, santiment]
+
+  - id: crypto-twitter-analyst
+    name: Crypto Twitter Analyst
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Score CT influencer credibility
+      - Track trending tokens/narratives
+      - Analyze engagement patterns
+      - Detect coordinated campaigns
+    auto_load_when:
+      keywords: [twitter, ct, influencer, kol, sentiment, trending]
+    mcp_connections: [tweetscout, santiment]
+
+  - id: farcaster-expert
+    name: Farcaster Expert
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Query Farcaster API via Neynar
+      - Build Farcaster Frames
+      - Analyze cast engagement
+      - Track channel activity
+    auto_load_when:
+      keywords: [farcaster, neynar, cast, frame, warpcast]
+    mcp_connections: [neynar]
+
+  # ===========================================================================
+  # 🔥 KILLER UI/UX FRONTEND SKILLS
+  # ===========================================================================
+
+  - id: framer-motion-wizard
+    name: Framer Motion Wizard
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Build fluid page transitions
+      - Create micro-interactions and hover states
+      - Implement scroll-triggered animations
+      - Design gesture-based interactions
+      - Orchestrate complex animation sequences
+      - AnimatePresence for mount/unmount
+      - Layout animations and shared element transitions
+      - Spring physics and keyframe animations
+    auto_load_when:
+      keywords: [framer, motion, animation, animate, transition, gesture, spring]
+    mcp_connections: [context7]
+
+  - id: shadcn-ui-master
+    name: Shadcn/UI Master
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Configure and customize shadcn/ui
+      - Build accessible component variants
+      - Extend with custom components
+      - Theme customization with CSS variables
+      - Combine with Radix primitives
+      - Dark mode implementation
+      - Form components with react-hook-form
+    auto_load_when:
+      keywords: [shadcn, radix, ui components, component library, cn, cva]
+    mcp_connections: [context7]
+
+  - id: tailwind-ui-designer
+    name: Tailwind UI Designer
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Design stunning layouts from scratch
+      - Build responsive designs mobile-first
+      - Create custom design systems
+      - Implement glassmorphism, neumorphism
+      - Advanced gradient and backdrop effects
+      - Container queries and modern CSS
+      - Tailwind config customization
+      - Animation utilities and keyframes
+    auto_load_when:
+      keywords: [tailwind, design, layout, responsive, gradient, glass, beautiful, stunning]
+      file_types: [.css]
+    mcp_connections: [context7]
+
+  - id: threejs-webgl
+    name: Three.js & WebGL Expert
+    tier: 2
+    token_cost: 9000
+    capabilities:
+      - Build 3D scenes and experiences
+      - Implement shaders and materials
+      - Create particle systems
+      - Handle 3D model loading (GLTF)
+      - React Three Fiber integration
+      - Performance optimization
+      - Post-processing effects
+      - Interactive 3D UI elements
+    auto_load_when:
+      keywords: [three, 3d, webgl, shader, r3f, fiber, canvas, scene]
+    mcp_connections: [context7]
+
+  - id: design-system-architect
+    name: Design System Architect
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Build scalable design token systems
+      - Create component documentation
+      - Implement design primitives
+      - Build with Storybook
+      - Version and publish component libraries
+      - Accessibility-first component design
+      - Cross-platform design consistency
+    auto_load_when:
+      keywords: [design system, tokens, storybook, primitives, component library]
+    mcp_connections: [context7]
+
+  - id: figma-to-code
+    name: Figma to Code Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Translate Figma designs to pixel-perfect code
+      - Extract design tokens from Figma
+      - Implement auto-layout as Flexbox/Grid
+      - Handle responsive breakpoints
+      - Optimize assets and images
+      - Maintain design-dev handoff
+    auto_load_when:
+      keywords: [figma, design, mockup, pixel perfect, handoff, translate]
+    mcp_connections: []
+
+  - id: svg-illustration
+    name: SVG & Illustration Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Create custom SVG illustrations
+      - Animate SVGs with CSS and JS
+      - Build icon systems
+      - Optimize SVG for web
+      - Create data visualizations
+      - Interactive SVG components
+    auto_load_when:
+      keywords: [svg, icon, illustration, vector, draw, chart, visualization]
+    mcp_connections: []
+
+  # ===========================================================================
+  # 🚀 VIBE CODING / RAPID PROTOTYPING SKILLS
+  # ===========================================================================
+
+  - id: vibe-coder
+    name: Vibe Coder
+    tier: 1
+    token_cost: 10000
+    capabilities:
+      - Rapid prototype from idea to working app
+      - Ship fast with minimal boilerplate
+      - Smart defaults over configuration
+      - Copy-paste friendly code patterns
+      - Quick wins and instant gratification
+      - Just-make-it-work mentality
+      - Iterate fast, refactor later
+      - Modern stack best practices baked in
+    auto_load_when:
+      keywords: [vibe, quick, fast, prototype, ship, build, create, make, start, new]
+    mcp_connections: [context7, supabase]
+
+  - id: v0-style-generator
+    name: V0-Style UI Generator
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Generate complete UI from description
+      - Build landing pages in minutes
+      - Create dashboard layouts
+      - Design form interfaces
+      - Build marketing components
+      - Hero sections, pricing tables, testimonials
+      - Copy-ready Tailwind + React code
+    auto_load_when:
+      keywords: [v0, generate, landing, dashboard, hero, pricing, marketing, ui]
+    mcp_connections: [context7]
+
+  - id: trpc-fullstack
+    name: tRPC Full-Stack Expert
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Build end-to-end typesafe APIs
+      - Implement procedures and routers
+      - Handle subscriptions
+      - Integrate with React Query
+      - Error handling patterns
+      - Middleware and context
+      - Optimistic updates
+    auto_load_when:
+      keywords: [trpc, typesafe, procedure, router, rpc]
+    mcp_connections: [context7]
+
+  - id: react-hook-form-zod
+    name: Forms & Validation Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Build complex forms with react-hook-form
+      - Zod schema validation
+      - Multi-step forms
+      - Dynamic form fields
+      - File upload handling
+      - Form state management
+      - Server-side validation
+    auto_load_when:
+      keywords: [form, validation, zod, react-hook-form, input, submit, field]
+    mcp_connections: [context7]
+
+  - id: zustand-jotai-state
+    name: Modern State Management
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Zustand store patterns
+      - Jotai atomic state
+      - Persist state to storage
+      - Devtools integration
+      - Async state handling
+      - Computed/derived state
+      - State composition
+    auto_load_when:
+      keywords: [zustand, jotai, state, store, atom, global state]
+    mcp_connections: [context7]
+
+  - id: tanstack-query-expert
+    name: TanStack Query Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Server state management
+      - Caching strategies
+      - Optimistic updates
+      - Infinite queries
+      - Prefetching
+      - Mutations and invalidation
+      - Suspense integration
+    auto_load_when:
+      keywords: [tanstack, react-query, query, cache, fetch, mutation, stale]
+    mcp_connections: [context7]
+
+  # ===========================================================================
+  # 💰 WEB2 MONEY-MAKING INTEGRATIONS
+  # ===========================================================================
+
+  - id: stripe-payments
+    name: Stripe Payments Expert
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Implement Checkout Sessions
+      - Build subscription systems
+      - Handle webhooks securely
+      - Customer portal integration
+      - Payment intents and elements
+      - Metered billing
+      - Invoice generation
+      - Stripe Connect for marketplaces
+    auto_load_when:
+      keywords: [stripe, payment, checkout, subscription, billing, invoice]
+    mcp_connections: []
+
+  - id: auth-clerk-nextauth
+    name: Auth Expert (Clerk/NextAuth)
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Implement Clerk authentication
+      - NextAuth.js configuration
+      - Social login providers
+      - Magic link authentication
+      - Role-based access control
+      - Protected routes and middleware
+      - Session management
+      - Multi-tenant auth
+    auto_load_when:
+      keywords: [clerk, nextauth, auth, login, signin, session, oauth, social]
+    mcp_connections: [context7]
+
+  - id: email-resend
+    name: Email Expert (Resend/React Email)
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Build emails with React Email
+      - Resend API integration
+      - Transactional email templates
+      - Email verification flows
+      - Newsletter systems
+      - Email scheduling
+    auto_load_when:
+      keywords: [email, resend, react-email, transactional, newsletter, mail]
+    mcp_connections: []
+
+  - id: file-upload-expert
+    name: File Upload Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - UploadThing integration
+      - S3/R2 direct uploads
+      - Image optimization
+      - Video upload handling
+      - Progress tracking
+      - Drag and drop interfaces
+      - File type validation
+    auto_load_when:
+      keywords: [upload, file, image, video, s3, uploadthing, dropzone]
+    mcp_connections: [supabase]
+
+  - id: ai-integration
+    name: AI/LLM Integration Expert
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Vercel AI SDK integration
+      - Streaming responses
+      - Chat interfaces
+      - RAG implementation
+      - Prompt engineering
+      - OpenAI/Anthropic/local LLM
+      - AI-powered features
+      - Embeddings and vector search
+    auto_load_when:
+      keywords: [ai, llm, openai, anthropic, claude, gpt, chat, stream, rag, embedding]
+    mcp_connections: [context7]
+
+  - id: realtime-multiplayer
+    name: Realtime & Multiplayer Expert
+    tier: 3
+    token_cost: 7000
+    capabilities:
+      - Supabase Realtime
+      - Liveblocks integration
+      - Collaborative editing
+      - Presence indicators
+      - Conflict resolution
+      - Optimistic UI updates
+      - WebSocket patterns
+    auto_load_when:
+      keywords: [realtime, multiplayer, collaborative, presence, liveblocks, sync]
+    mcp_connections: [supabase, context7]
+
+  - id: analytics-tracking
+    name: Analytics & Tracking Expert
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - PostHog integration
+      - Mixpanel events
+      - Vercel Analytics
+      - Custom event tracking
+      - Funnel analysis setup
+      - A/B testing
+      - User session recording
+    auto_load_when:
+      keywords: [analytics, tracking, posthog, mixpanel, events, funnel]
+    mcp_connections: []
+
+  # ===========================================================================
+  # TIER 3: CORE WEB2 SKILLS
+  # ===========================================================================
+
+  - id: react-expert
+    name: React Expert
+    tier: 3
+    token_cost: 10000
+    capabilities:
+      - Build complex component hierarchies
+      - Implement custom hooks
+      - Optimize with useMemo/useCallback
+      - Handle context and state management
+      - Build with React 18+ features
+      - Server Components vs Client Components
+    auto_load_when:
+      keywords: [react, hook, useState, useEffect, component, jsx, context]
+      file_types: [.tsx, .jsx]
+    mcp_connections: [context7]
+
+  - id: node-backend
+    name: Node.js Backend Expert
+    tier: 3
+    token_cost: 8000
+    capabilities:
+      - Build REST and GraphQL APIs
+      - Implement middleware patterns
+      - Handle authentication (JWT, OAuth)
+      - Configure Express/Fastify/Hono
+      - Manage async operations
+    auto_load_when:
+      keywords: [node, express, fastify, hono, backend, api, middleware, jwt]
+      file_types: [.ts, .js]
+      directories: [server/, api/, backend/]
+    mcp_connections: [postgres, supabase]
+
+  - id: python-developer
+    name: Python Developer
+    tier: 3
+    token_cost: 7000
+    capabilities:
+      - Write clean Pythonic code
+      - Build with FastAPI/Flask
+      - Handle async with asyncio
+      - Data processing with pandas
+      - Type hints and mypy
+    auto_load_when:
+      keywords: [python, fastapi, flask, pandas, asyncio, pip]
+      file_types: [.py]
+    mcp_connections: [postgres]
+
+  - id: graphql-expert
+    name: GraphQL Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Design GraphQL schemas
+      - Implement resolvers
+      - Handle subscriptions
+      - Apollo Client integration
+      - Query optimization
+    auto_load_when:
+      keywords: [graphql, apollo, resolver, mutation, subscription, gql]
+    mcp_connections: [supabase]
+
+  - id: sql-database
+    name: SQL Database Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Write complex SQL queries
+      - Design normalized schemas
+      - Optimize query performance
+      - Handle migrations
+      - PostgreSQL specific features
+    auto_load_when:
+      keywords: [sql, postgres, database, query, migration, schema, index]
+    mcp_connections: [postgres, supabase]
+
+  - id: prisma-drizzle-orm
+    name: Prisma & Drizzle ORM Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Design Prisma/Drizzle schemas
+      - Handle migrations
+      - Implement relations
+      - Query optimization
+      - Type-safe database access
+      - Drizzle Kit and Studio
+    auto_load_when:
+      keywords: [prisma, drizzle, orm, schema, migrate, relation]
+      file_types: [.prisma]
+    mcp_connections: [postgres, supabase, context7]
+
+  - id: git-expert
+    name: Git & Version Control Expert
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Complex branching strategies
+      - Interactive rebasing
+      - Resolve merge conflicts
+      - Git hooks and automation
+      - GitHub Actions workflows
+    auto_load_when:
+      keywords: [git, branch, merge, rebase, commit, github]
+    mcp_connections: [github]
+
+  - id: docker-containers
+    name: Docker & Containers Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Write optimized Dockerfiles
+      - Docker Compose configurations
+      - Multi-stage builds
+      - Container networking
+      - CI/CD integration
+    auto_load_when:
+      keywords: [docker, container, dockerfile, compose, kubernetes]
+      file_types: [Dockerfile, .yml]
+    mcp_connections: [github]
+
+  - id: testing-playwright
+    name: Playwright Testing Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Write E2E tests with Playwright
+      - Visual regression testing
+      - API testing
+      - Test fixtures and hooks
+      - Cross-browser testing
+    auto_load_when:
+      keywords: [playwright, e2e, test, browser, automation]
+      file_types: [.spec.ts, .test.ts]
+    mcp_connections: [playwright]
+
+  - id: testing-unit
+    name: Unit Testing Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Write unit tests (Jest/Vitest)
+      - Mocking and stubbing
+      - Test coverage analysis
+      - TDD patterns
+      - Testing React components
+    auto_load_when:
+      keywords: [jest, vitest, unit test, mock, coverage, tdd]
+      file_types: [.test.ts, .spec.ts]
+    mcp_connections: []
+
+  - id: supabase-expert
+    name: Supabase Expert
+    tier: 3
+    token_cost: 7000
+    capabilities:
+      - Configure Supabase projects
+      - Row Level Security policies
+      - Real-time subscriptions
+      - Edge functions
+      - Storage management
+      - Auth integration
+    auto_load_when:
+      keywords: [supabase, rls, realtime, edge function, storage]
+    mcp_connections: [supabase]
+
+  - id: auth-security
+    name: Authentication & Security Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Implement OAuth 2.0 / OIDC
+      - JWT handling best practices
+      - Session management
+      - CSRF/XSS protection
+      - Security headers
+    auto_load_when:
+      keywords: [auth, oauth, jwt, security, session, csrf, login]
+    mcp_connections: [supabase]
+
+  - id: monorepo-expert
+    name: Monorepo Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Configure Turborepo/Nx/pnpm workspaces
+      - Shared package management
+      - Build caching
+      - Dependency graph optimization
+    auto_load_when:
+      keywords: [monorepo, turborepo, nx, workspace, pnpm]
+    mcp_connections: [github]
+
+  # ===========================================================================
+  # TIER 3: SPECIALIZED
+  # ===========================================================================
+
+  - id: tokenomics-designer
+    name: Tokenomics Designer
+    tier: 3
+    token_cost: 7000
+    capabilities:
+      - Model token distribution schedules
+      - Design vesting contracts
+      - Calculate inflation/deflation
+      - Optimize incentive structures
+    auto_load_when:
+      keywords: [tokenomics, vesting, distribution, inflation, allocation]
+    mcp_connections: [birdeye]
+
+  - id: lp-automation
+    name: LP Automation Expert
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Create Raydium/Orca pools
+      - Calculate optimal LP ranges
+      - Implement auto-rebalancing
+      - Integrate with AMMs
+    auto_load_when:
+      keywords: [lp, liquidity pool, raydium, orca, amm]
+    mcp_connections: [jupiter, raydium]
+
+  - id: smart-contract-auditor
+    name: Smart Contract Auditor
+    tier: 3
+    token_cost: 8000
+    capabilities:
+      - Identify common vulnerabilities
+      - Check for reentrancy risks
+      - Validate access controls
+      - Generate audit reports
+    auto_load_when:
+      keywords: [audit, security, vulnerability, exploit]
+    mcp_connections: []
+
+  - id: devops-engineer
+    name: DevOps Engineer
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Configure GitHub Actions
+      - Set up Vercel deployment
+      - Implement monitoring
+      - Handle secrets management
+    auto_load_when:
+      keywords: [deploy, ci, cd, vercel, pipeline]
+    mcp_connections: [github, vercel]
+
+  - id: content-writer
+    name: Technical Content Writer
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Write technical tutorials
+      - Create API documentation
+      - Draft blog posts
+      - Create README files
+    auto_load_when:
+      keywords: [blog, article, documentation, readme, tutorial]
+    mcp_connections: [notion]
+
+  - id: wallet-integration
+    name: Wallet Integration Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Integrate wallet adapters
+      - Build transaction flows
+      - Handle signing UX
+      - Support multiple wallets
+    auto_load_when:
+      keywords: [wallet, phantom, solflare, connect, sign]
+    mcp_connections: [helius]
+
+  - id: mcp-builder
+    name: MCP Builder
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Design MCP server architecture
+      - Implement tool definitions
+      - Handle authentication flows
+      - Build data transformers
+    auto_load_when:
+      keywords: [mcp, model context protocol, tool, server]
+    mcp_connections: [context7]
+
+# =============================================================================
+# SKILL COMBINATIONS
+# =============================================================================
+
+combinations:
+  # Web3
+  full_stack_solana:
+    skills: [solana-anchor-expert, nextjs-14-expert, typescript-senior, wallet-integration]
+    token_cost: 40000
+  
+  token_launch:
+    skills: [bonding-curve-master, tokenomics-designer, lp-automation]
+    token_cost: 21000
+  
+  market_intelligence:
+    skills: [defi-data-analyst, crypto-twitter-analyst, farcaster-expert]
+    token_cost: 21000
+
+  # Web2 Full Stack
+  full_stack_web2:
+    skills: [react-expert, node-backend, typescript-senior, sql-database]
+    token_cost: 31000
+
+  # 🔥 Killer Combos
+  ui_wizard:
+    skills: [framer-motion-wizard, shadcn-ui-master, tailwind-ui-designer, svg-illustration]
+    token_cost: 26000
+
+  vibe_stack:
+    skills: [vibe-coder, v0-style-generator, shadcn-ui-master, supabase-expert]
+    token_cost: 31000
+
+  saas_starter:
+    skills: [nextjs-14-expert, stripe-payments, auth-clerk-nextauth, supabase-expert]
+    token_cost: 34000
+
+  ai_app_builder:
+    skills: [ai-integration, nextjs-14-expert, tanstack-query-expert, supabase-expert]
+    token_cost: 33000
+
+  landing_page_pro:
+    skills: [v0-style-generator, tailwind-ui-designer, framer-motion-wizard, figma-to-code]
+    token_cost: 29000
+
+  # Testing & DevOps
+  testing_complete:
+    skills: [testing-playwright, testing-unit, typescript-senior]
+    token_cost: 19000
+
+  supabase_stack:
+    skills: [supabase-expert, nextjs-14-expert, typescript-senior, auth-security]
+    token_cost: 33000
+
+  devops_complete:
+    skills: [docker-containers, git-expert, devops-engineer, monorepo-expert]
+    token_cost: 19000
+
+  # Forms & Data
+  forms_data:
+    skills: [react-hook-form-zod, prisma-drizzle-orm, tanstack-query-expert]
+    token_cost: 17000
+
+  # ===========================================================================
+  # v3.1 "EYES UPDATE" - GRAB SKILLS (Visual to Code)
+  # ===========================================================================
+  grab_stack:
+    skills: [react-grab, theme-grab, form-grab, chart-grab, dashboard-grab]
+    token_cost: 35000
+
+  research_stack:
+    skills: [web-scraper, deep-researcher, docs-expert]
+    token_cost: 24000
+
+# =============================================================================
+# v3.1 SKILLS - "THE EYES UPDATE"
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# GRAB SKILLS (15) - Screenshot/Visual → Code (added to skills list)
+# ---------------------------------------------------------------------------
+
+skills_v31:
+  - id: react-grab
+    name: React Grab
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Convert screenshot to React + Tailwind code
+      - Pixel-perfect reproduction
+      - Component structure inference
+      - Responsive design generation
+    auto_load_when:
+      keywords: [grab, screenshot, clone, copy, "make this", "build this"]
+    mcp_connections: [context7]
+
+  - id: theme-grab
+    name: Theme Grab
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Extract design tokens from URL
+      - Generate tailwind.config.js
+      - Color palette extraction
+      - Typography analysis
+    auto_load_when:
+      keywords: [theme, colors, design tokens, palette, "like this site"]
+    mcp_connections: [firecrawl, jina]
+
+  - id: form-grab
+    name: Form Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Screenshot to React Hook Form + Zod
+      - Field type inference
+      - Validation rule generation
+      - Multi-step form support
+    auto_load_when:
+      keywords: [form, input, validation, "grab form"]
+    mcp_connections: [context7]
+
+  - id: chart-grab
+    name: Chart Grab
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Screenshot to Recharts code
+      - Data structure inference
+      - Chart type detection
+      - Animation and interaction
+    auto_load_when:
+      keywords: [chart, graph, visualization, "grab chart"]
+    mcp_connections: [context7]
+
+  - id: icon-grab
+    name: Icon Grab
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Convert icon to React SVG component
+      - Stroke/fill optimization
+      - Size variants generation
+      - Accessibility props
+    auto_load_when:
+      keywords: [icon, svg, "grab icon"]
+    mcp_connections: []
+
+  - id: dashboard-grab
+    name: Dashboard Grab
+    tier: 2
+    token_cost: 9000
+    capabilities:
+      - Full admin layout from screenshot
+      - Sidebar navigation
+      - Data tables and cards
+      - Responsive grid system
+    auto_load_when:
+      keywords: [dashboard, admin, panel, "grab dashboard"]
+    mcp_connections: [context7]
+
+  - id: landing-grab
+    name: Landing Grab
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Full landing page from screenshot
+      - Hero, features, pricing sections
+      - CTA optimization
+      - Mobile-first responsive
+    auto_load_when:
+      keywords: [landing, hero, "grab landing"]
+    mcp_connections: [context7]
+
+  - id: db-grab
+    name: DB Schema Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - ERD diagram to Prisma schema
+      - Relationship inference
+      - Index suggestions
+      - Migration generation
+    auto_load_when:
+      keywords: [erd, schema, diagram, "grab schema"]
+    mcp_connections: []
+
+  - id: api-grab
+    name: API Grab
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - API docs to TypeScript SDK
+      - OpenAPI parsing
+      - Type generation
+      - Error handling patterns
+    auto_load_when:
+      keywords: [api, sdk, "grab api", openapi]
+    mcp_connections: [context7]
+
+  - id: wireframe-grab
+    name: Wireframe Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Hand sketch to polished UI
+      - Layout interpretation
+      - Component suggestion
+      - UX improvements
+    auto_load_when:
+      keywords: [wireframe, sketch, "rough design"]
+    mcp_connections: []
+
+  - id: figma-grab
+    name: Figma Grab
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Figma frame to component library
+      - Auto-layout to Flexbox
+      - Design token extraction
+      - Variant generation
+    auto_load_when:
+      keywords: [figma, design file, "from figma"]
+    mcp_connections: []
+
+  - id: animation-grab
+    name: Animation Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Animation reference to Framer Motion
+      - Timing function analysis
+      - Keyframe generation
+      - Spring physics
+    auto_load_when:
+      keywords: [animation, motion, "grab animation"]
+    mcp_connections: [context7]
+
+  - id: email-grab
+    name: Email Grab
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Email screenshot to React Email
+      - Template generation
+      - Responsive email layout
+      - Dark mode support
+    auto_load_when:
+      keywords: [email, newsletter, "grab email"]
+    mcp_connections: []
+
+  - id: pdf-grab
+    name: PDF Grab
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - PDF layout to React-PDF
+      - Document structure
+      - Table rendering
+      - Page breaks
+    auto_load_when:
+      keywords: [pdf, document, "grab pdf"]
+    mcp_connections: []
+
+  - id: mobile-grab
+    name: Mobile Grab
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Mobile screenshot to React Native
+      - Navigation patterns
+      - Platform-specific components
+      - Gesture handling
+    auto_load_when:
+      keywords: [mobile, react native, "grab mobile"]
+    mcp_connections: [context7]
+
+  # ---------------------------------------------------------------------------
+  # WEB SCRAPING & RESEARCH SKILLS (v3.1)
+  # ---------------------------------------------------------------------------
+
+  - id: web-scraper
+    name: Web Scraper Expert
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Firecrawl production scraping
+      - Jina URL-to-markdown
+      - Crawl4AI self-hosted
+      - Data extraction patterns
+    auto_load_when:
+      keywords: [scrape, crawl, extract, fetch url]
+    mcp_connections: [firecrawl, jina, crawl4ai]
+
+  - id: deep-researcher
+    name: Deep Researcher
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Multi-source investigation
+      - Tavily AI search
+      - Exa semantic search
+      - Citation tracking
+    auto_load_when:
+      keywords: [research, investigate, "find out", "deep dive"]
+    mcp_connections: [tavily, exa]
+
+  - id: docs-expert
+    name: Documentation Expert
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Context7 live docs
+      - Library documentation lookup
+      - API reference search
+      - Example code finding
+    auto_load_when:
+      keywords: [docs, documentation, "how to use", reference]
+    mcp_connections: [context7]
+
+  - id: browser-automator
+    name: Browser Automator
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Playwright browser control
+      - Stagehand natural language
+      - Screenshot capture
+      - Form automation
+    auto_load_when:
+      keywords: [browser, automate, "click on", navigate]
+    mcp_connections: [playwright, stagehand]
+
+  - id: desktop-context
+    name: Desktop Context
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - ScreenPipe desktop recording
+      - Activity history search
+      - Context awareness
+      - Work session tracking
+    auto_load_when:
+      keywords: [desktop, "what was I doing", history, "find when"]
+    mcp_connections: [screenpipe]
+
+# =============================================================================
+# v3.2 SKILLS - "THE SOLANA STACK"
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # SOLANA & BLOCKCHAIN SKILLS
+  # ---------------------------------------------------------------------------
+
+  - id: jupiter-trader
+    name: Jupiter Trader
+    tier: 1
+    token_cost: 8000
+    capabilities:
+      - Token swap execution
+      - Quote fetching
+      - Route optimization
+      - Slippage management
+    auto_load_when:
+      keywords: [swap, jupiter, "buy token", "sell token", exchange]
+    mcp_connections: [jupiter]
+
+  - id: solana-reader
+    name: Solana Chain Reader
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Wallet balance queries
+      - Transaction history
+      - Token account parsing
+      - Program account reading
+    auto_load_when:
+      keywords: [balance, wallet, transaction, "on chain"]
+    mcp_connections: [helius, solana]
+
+  - id: anchor-instructor
+    name: Anchor Instructor
+    tier: 1
+    token_cost: 10000
+    capabilities:
+      - IDL parsing and generation
+      - Natural language to instructions
+      - Account constraint handling
+      - CPI orchestration
+    auto_load_when:
+      keywords: [anchor, instruction, idl, program]
+    mcp_connections: [anchor]
+
+  - id: solana-deployer
+    name: Solana Deployer
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Program deployment
+      - Devnet/mainnet management
+      - Upgrade authority
+      - Buffer accounts
+    auto_load_when:
+      keywords: [deploy, devnet, mainnet, upgrade]
+    mcp_connections: [solana, helius]
+
+  # ---------------------------------------------------------------------------
+  # INFRASTRUCTURE SKILLS (v3.2)
+  # ---------------------------------------------------------------------------
+
+  - id: github-manager
+    name: GitHub Manager
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Repository automation
+      - PR management
+      - Issue tracking
+      - Code review
+    auto_load_when:
+      keywords: [github, repo, pr, issue]
+    mcp_connections: [github]
+
+  - id: memory-keeper
+    name: Memory Keeper
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Mem0 semantic memory
+      - Context persistence
+      - Memory search
+      - Cross-session recall
+    auto_load_when:
+      keywords: [remember, recall, memory, "you mentioned"]
+    mcp_connections: [mem0]
+
+  - id: vector-wizard
+    name: Vector Wizard
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Qdrant vector operations
+      - Embedding storage
+      - Semantic search
+      - RAG pipelines
+    auto_load_when:
+      keywords: [vector, embedding, similarity, rag]
+    mcp_connections: [qdrant]
+
+  - id: db-commander
+    name: DB Commander
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Supabase operations
+      - SQL execution
+      - Migration management
+      - Type generation
+    auto_load_when:
+      keywords: [supabase, database, sql, migrate]
+    mcp_connections: [supabase]
+
+  - id: container-chief
+    name: Container Chief
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Docker container management
+      - Compose orchestration
+      - Image building
+      - Log inspection
+    auto_load_when:
+      keywords: [docker, container, compose, image]
+    mcp_connections: [docker]
+
+  - id: error-hunter
+    name: Error Hunter
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Sentry error tracking
+      - Root cause analysis
+      - Issue triaging
+      - Fix suggestions
+    auto_load_when:
+      keywords: [error, sentry, crash, bug]
+    mcp_connections: [sentry]
+
+  - id: notion-navigator
+    name: Notion Navigator
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Notion page management
+      - Documentation updates
+      - Knowledge base search
+      - Page creation
+    auto_load_when:
+      keywords: [notion, docs, wiki, notes]
+    mcp_connections: [notion]
+
+# =============================================================================
+# v4.0 SKILLS - "THE EXPANSION"
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # SKILL PACKS (5) - Consolidated Bundles
+  # ---------------------------------------------------------------------------
+
+  - id: ai-native-stack
+    name: AI-Native Stack
+    tier: 1
+    token_cost: 10000
+    type: skill_pack
+    metadata_path: skills/metadata/ai/ai-native-stack.yaml
+    capabilities:
+      - Vercel AI SDK streaming
+      - LangChain agent patterns
+      - RAG with embeddings
+      - Prompt engineering
+      - LangSmith tracing
+    auto_load_when:
+      keywords: [ai, llm, rag, embeddings, langchain, vercel ai, streaming]
+    mcp_connections: [langsmith, vercel_ai, context7]
+
+  - id: solana-2025-stack
+    name: Solana 2025 Stack
+    tier: 1
+    token_cost: 12000
+    type: skill_pack
+    metadata_path: skills/metadata/solana-2025/solana-2025-stack.yaml
+    capabilities:
+      - Anchor program development
+      - Jupiter swap integration
+      - PDA derivation patterns
+      - Token-2022 standard
+      - Helius RPC optimization
+    auto_load_when:
+      keywords: [solana, anchor, jupiter, pda, token-2022, helius]
+    mcp_connections: [jupiter, helius, solana, pump_fun, dexscreener]
+
+  - id: devops-automation-stack
+    name: DevOps Automation Stack
+    tier: 2
+    token_cost: 9000
+    type: skill_pack
+    metadata_path: skills/metadata/devops/devops-automation-stack.yaml
+    capabilities:
+      - GitHub Actions workflows
+      - Docker multi-stage builds
+      - Kubernetes deployments
+      - Terraform IaC
+      - ArgoCD GitOps
+    auto_load_when:
+      keywords: [cicd, github actions, docker, kubernetes, terraform, deploy]
+    mcp_connections: [github]
+
+  - id: monorepo-build-stack
+    name: Monorepo Build Stack
+    tier: 2
+    token_cost: 8000
+    type: skill_pack
+    metadata_path: skills/metadata/devops/monorepo-build-stack.yaml
+    capabilities:
+      - Turborepo caching
+      - pnpm workspaces
+      - tsup bundling
+      - Changesets versioning
+      - npm publishing
+    auto_load_when:
+      keywords: [monorepo, turborepo, pnpm, workspace, changesets]
+    mcp_connections: [github]
+
+  - id: fullstack-blueprint-stack
+    name: Fullstack Blueprint Stack
+    tier: 2
+    token_cost: 10000
+    type: skill_pack
+    metadata_path: skills/metadata/stacks/fullstack-blueprint-stack.yaml
+    capabilities:
+      - Next.js 14+ App Router
+      - Drizzle ORM + Neon
+      - Clerk authentication
+      - Stripe payments
+      - Vercel deployment
+    auto_load_when:
+      keywords: [fullstack, saas, starter, blueprint, nextjs, clerk, stripe]
+    mcp_connections: [clerk, stripe, vercel, supabase]
+
+  # ---------------------------------------------------------------------------
+  # NEW INDIVIDUAL SKILLS (17) - Lean Modern Tools
+  # ---------------------------------------------------------------------------
+
+  - id: react-19-expert
+    name: React 19 Expert
+    tier: 2
+    token_cost: 8000
+    metadata_path: skills/metadata/frontend/react-19-expert.yaml
+    capabilities:
+      - Server Components (RSC)
+      - Server Actions
+      - use() hook
+      - useOptimistic
+      - useFormStatus/useActionState
+    auto_load_when:
+      keywords: [react 19, server components, server actions, useOptimistic]
+    mcp_connections: [context7]
+
+  - id: dspy-prompting
+    name: DSPy Prompting Expert
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/ai/dspy-prompting.yaml
+    capabilities:
+      - Programmatic prompt optimization
+      - Signature definitions
+      - Chain of Thought modules
+      - Automatic prompt tuning
+    auto_load_when:
+      keywords: [dspy, prompt optimization, signatures, automatic prompts]
+    mcp_connections: [langsmith]
+
+  - id: hono-expert
+    name: Hono Web Framework Expert
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/web/hono-expert.yaml
+    capabilities:
+      - Ultrafast edge APIs
+      - Cloudflare Workers deployment
+      - Middleware patterns
+      - RPC-style endpoints
+    auto_load_when:
+      keywords: [hono, edge api, cloudflare workers, ultrafast]
+    mcp_connections: []
+
+  - id: bun-runtime
+    name: Bun Runtime Expert
+    tier: 2
+    token_cost: 5000
+    metadata_path: skills/metadata/runtime/bun-runtime.yaml
+    capabilities:
+      - Bun.serve() HTTP server
+      - bun:sqlite native database
+      - Fast package management
+      - TypeScript without config
+    auto_load_when:
+      keywords: [bun, bun.serve, bun:sqlite, bunx]
+    mcp_connections: []
+
+  - id: vitest-expert
+    name: Vitest Testing Expert
+    tier: 2
+    token_cost: 5000
+    metadata_path: skills/metadata/testing/vitest-expert.yaml
+    capabilities:
+      - Jest-compatible API
+      - In-source testing
+      - Coverage reports
+      - TypeScript without config
+    auto_load_when:
+      keywords: [vitest, test, unit test, coverage, mock]
+    mcp_connections: []
+
+  - id: playwright-pro
+    name: Playwright E2E Testing Pro
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/testing/playwright-pro.yaml
+    capabilities:
+      - Cross-browser E2E tests
+      - Page object patterns
+      - Visual regression
+      - API testing
+    auto_load_when:
+      keywords: [playwright, e2e, browser test, integration test]
+    mcp_connections: [playwright]
+
+  - id: effect-ts
+    name: Effect-TS Expert
+    tier: 2
+    token_cost: 7000
+    metadata_path: skills/metadata/typescript/effect-ts.yaml
+    capabilities:
+      - Type-safe error handling
+      - Effect composition
+      - Dependency injection with Layers
+      - Fiber-based concurrency
+    auto_load_when:
+      keywords: [effect-ts, effect/io, pipe, Effect.gen, Layer]
+    mcp_connections: []
+
+  - id: drizzle-studio
+    name: Drizzle ORM Expert
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/database/drizzle-studio.yaml
+    capabilities:
+      - TypeScript-first schemas
+      - Type-safe queries
+      - Drizzle Kit migrations
+      - Serverless database support
+    auto_load_when:
+      keywords: [drizzle, drizzle-orm, drizzle-kit, pgTable]
+    mcp_connections: [supabase]
+
+  - id: neon-postgres
+    name: Neon Serverless Postgres Expert
+    tier: 2
+    token_cost: 5000
+    metadata_path: skills/metadata/database/neon-postgres.yaml
+    capabilities:
+      - Serverless PostgreSQL
+      - Database branching
+      - Edge deployment
+      - Connection pooling
+    auto_load_when:
+      keywords: [neon, neondb, serverless postgres, "@neondatabase"]
+    mcp_connections: []
+
+  - id: clerk-auth-expert
+    name: Clerk Authentication Expert
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/auth/clerk-auth-expert.yaml
+    capabilities:
+      - Pre-built auth components
+      - Route protection middleware
+      - Organizations/multi-tenancy
+      - Webhook user sync
+    auto_load_when:
+      keywords: [clerk, "@clerk/nextjs", clerkMiddleware, currentUser]
+    mcp_connections: [clerk]
+
+  - id: inngest-expert
+    name: Inngest Background Jobs Expert
+    tier: 2
+    token_cost: 5500
+    metadata_path: skills/metadata/jobs/inngest-expert.yaml
+    capabilities:
+      - Event-driven functions
+      - Multi-step workflows
+      - Automatic retries
+      - Cron scheduling
+    auto_load_when:
+      keywords: [inngest, createFunction, step.run, step.sleep]
+    mcp_connections: []
+
+  - id: trigger-dev-expert
+    name: Trigger.dev Background Jobs Expert
+    tier: 2
+    token_cost: 5500
+    metadata_path: skills/metadata/jobs/trigger-dev-expert.yaml
+    capabilities:
+      - Long-running tasks (2h+)
+      - Type-safe task definitions
+      - Scheduled jobs
+      - Real-time dashboard
+    auto_load_when:
+      keywords: [trigger.dev, "@trigger.dev", schedules.task]
+    mcp_connections: []
+
+  - id: convex-expert
+    name: Convex Backend Expert
+    tier: 2
+    token_cost: 6500
+    metadata_path: skills/metadata/backend/convex-expert.yaml
+    capabilities:
+      - Reactive queries
+      - ACID mutations
+      - Real-time sync
+      - File storage
+    auto_load_when:
+      keywords: [convex, useQuery, useMutation, convex/values]
+    mcp_connections: []
+
+  - id: uploadthing-expert
+    name: UploadThing File Upload Expert
+    tier: 2
+    token_cost: 4500
+    metadata_path: skills/metadata/upload/uploadthing-expert.yaml
+    capabilities:
+      - Type-safe file routes
+      - Pre-built React components
+      - File validation
+      - Upload callbacks
+    auto_load_when:
+      keywords: [uploadthing, createUploadthing, UploadButton]
+    mcp_connections: []
+
+  - id: resend-email
+    name: Resend Email Expert
+    tier: 2
+    token_cost: 4000
+    metadata_path: skills/metadata/email/resend-email.yaml
+    capabilities:
+      - Resend API integration
+      - React Email templates
+      - Delivery webhooks
+      - Domain configuration
+    auto_load_when:
+      keywords: [resend, react-email, "@react-email"]
+    mcp_connections: [resend]
+
+  - id: chrome-extension-expert
+    name: Chrome Extension Expert
+    tier: 2
+    token_cost: 6000
+    metadata_path: skills/metadata/extensions/chrome-extension-expert.yaml
+    capabilities:
+      - Manifest V3 configuration
+      - Service workers
+      - Content scripts
+      - Chrome Storage API
+    auto_load_when:
+      keywords: [chrome extension, manifest.json, content script, chrome.runtime]
+    mcp_connections: []
+
+  - id: cli-builder-expert
+    name: CLI Builder Expert
+    tier: 2
+    token_cost: 5000
+    metadata_path: skills/metadata/cli/cli-builder-expert.yaml
+    capabilities:
+      - Commander.js command parsing
+      - Interactive prompts
+      - Styled output with Chalk
+      - Configuration files
+    auto_load_when:
+      keywords: [cli, commander, inquirer, chalk, ora, bin]
+    mcp_connections: []
+
+  # ---------------------------------------------------------------------------
+  # SKILL HINTS (15) - MCP-Backed Lightweight Skills
+  # See: skills/skill-hints.ts for full definitions
+  # ---------------------------------------------------------------------------
+  # These replace heavy skills with 94% token reduction by deferring to MCPs:
+  # - jupiter-hint (replaces jupiter-trader)
+  # - helius-hint (replaces solana-reader)
+  # - supabase-hint (replaces supabase-expert)
+  # - github-hint (replaces github-manager)
+  # - sentry-hint (replaces error-hunter)
+  # - notion-hint (replaces notion-navigator)
+  # - mem0-hint (replaces memory-keeper)
+  # - qdrant-hint (replaces vector-wizard)
+  # - firecrawl-hint (replaces web-scraper)
+  # - tavily-hint (replaces deep-researcher)
+  # - context7-hint (replaces docs-expert)
+  # - playwright-hint (replaces browser-automator)
+  # - stripe-hint (replaces stripe-payments)
+  # - clerk-hint (replaces auth-clerk-nextauth)
+  # - resend-hint (replaces email-resend)
+
+# =============================================================================
+# v4.0 SKILL COMBINATIONS
+# =============================================================================
+
+v4_combinations:
+  # AI Development
+  ai_complete:
+    skills: [ai-native-stack, dspy-prompting, tanstack-query-expert]
+    token_cost: 22000
+    description: "Complete AI application development"
+
+  # Modern Backend
+  edge_backend:
+    skills: [hono-expert, bun-runtime, neon-postgres, drizzle-studio]
+    token_cost: 22000
+    description: "Edge-first backend with Hono + Bun + Neon"
+
+  # Full SaaS
+  saas_2025:
+    skills: [fullstack-blueprint-stack, inngest-expert, uploadthing-expert]
+    token_cost: 20000
+    description: "Complete SaaS with auth, payments, jobs, uploads"
+
+  # Testing Complete
+  testing_2025:
+    skills: [vitest-expert, playwright-pro, effect-ts]
+    token_cost: 18000
+    description: "Type-safe testing with Vitest + Playwright + Effect"
+
+  # Solana Full
+  solana_complete:
+    skills: [solana-2025-stack, jupiter-trader, anchor-instructor]
+    token_cost: 30000
+    description: "Complete Solana development stack"
+
+# =============================================================================
+# v4.1 SKILLS - "THE EXPANSION" (35 New Skills to reach 130)
+# =============================================================================
+
+skills_v41:
+  # ---------------------------------------------------------------------------
+  # ADDITIONAL GRAB SKILLS (11) - Visual-First Development
+  # ---------------------------------------------------------------------------
+
+  - id: table-grab
+    name: Table Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Data table screenshot to TanStack Table
+      - Column type inference
+      - Sorting and filtering generation
+      - Pagination setup
+    auto_load_when:
+      keywords: [table, data grid, "grab table", spreadsheet]
+    mcp_connections: [context7]
+
+  - id: modal-grab
+    name: Modal Grab
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - Modal dialog to Radix Dialog
+      - Overlay generation
+      - Form inside modal
+      - Accessibility compliance
+    auto_load_when:
+      keywords: [modal, dialog, popup, "grab modal"]
+    mcp_connections: [context7]
+
+  - id: sidebar-grab
+    name: Sidebar Grab
+    tier: 2
+    token_cost: 5500
+    capabilities:
+      - Sidebar navigation screenshot to code
+      - Collapsible menu generation
+      - Active state handling
+      - Mobile drawer conversion
+    auto_load_when:
+      keywords: [sidebar, navigation, menu, "grab sidebar"]
+    mcp_connections: [context7]
+
+  - id: nav-grab
+    name: Navigation Grab
+    tier: 2
+    token_cost: 5000
+    capabilities:
+      - Header navigation to responsive nav
+      - Dropdown menus
+      - Mobile hamburger menu
+      - Mega menu support
+    auto_load_when:
+      keywords: [nav, header, navbar, "grab nav"]
+    mcp_connections: [context7]
+
+  - id: footer-grab
+    name: Footer Grab
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Footer layout to code
+      - Column organization
+      - Newsletter signup
+      - Social links
+    auto_load_when:
+      keywords: [footer, "grab footer"]
+    mcp_connections: [context7]
+
+  - id: card-grab
+    name: Card Grab
+    tier: 3
+    token_cost: 4500
+    capabilities:
+      - Card component extraction
+      - Image handling
+      - Hover effects
+      - Grid layout
+    auto_load_when:
+      keywords: [card, "grab card", tile]
+    mcp_connections: [context7]
+
+  - id: hero-grab
+    name: Hero Grab
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Hero section conversion
+      - CTA button styling
+      - Background effects
+      - Animation integration
+    auto_load_when:
+      keywords: [hero, "grab hero", banner]
+    mcp_connections: [context7]
+
+  - id: pricing-grab
+    name: Pricing Grab
+    tier: 2
+    token_cost: 5500
+    capabilities:
+      - Pricing table extraction
+      - Feature comparison
+      - Toggle annual/monthly
+      - Highlight popular plan
+    auto_load_when:
+      keywords: [pricing, plans, "grab pricing"]
+    mcp_connections: [context7]
+
+  - id: testimonial-grab
+    name: Testimonial Grab
+    tier: 3
+    token_cost: 4500
+    capabilities:
+      - Testimonial section to carousel
+      - Avatar handling
+      - Quote styling
+      - Star ratings
+    auto_load_when:
+      keywords: [testimonial, review, "grab testimonial"]
+    mcp_connections: [context7]
+
+  - id: stats-grab
+    name: Stats Grab
+    tier: 3
+    token_cost: 4000
+    capabilities:
+      - Stats section conversion
+      - Animated counters
+      - Icon integration
+      - Grid layout
+    auto_load_when:
+      keywords: [stats, metrics, "grab stats", numbers]
+    mcp_connections: [context7]
+
+  - id: ecommerce-grab
+    name: E-commerce Grab
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Product card extraction
+      - Cart components
+      - Product gallery
+      - Checkout forms
+    auto_load_when:
+      keywords: [ecommerce, product, shop, "grab product"]
+    mcp_connections: [context7]
+
+  # ---------------------------------------------------------------------------
+  # AI/LLM SKILLS (3) - Advanced AI Integration
+  # ---------------------------------------------------------------------------
+
+  - id: openai-assistant-expert
+    name: OpenAI Assistant Expert
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Assistants API v2 integration
+      - Thread management
+      - Function calling setup
+      - File search and code interpreter
+    auto_load_when:
+      keywords: [openai assistant, gpt-4, assistant api, threads]
+    mcp_connections: [context7]
+
+  - id: gemini-expert
+    name: Google Gemini Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Gemini Pro/Ultra integration
+      - Multi-modal inputs
+      - Grounding with search
+      - Context caching
+    auto_load_when:
+      keywords: [gemini, google ai, vertex ai]
+    mcp_connections: [context7]
+
+  - id: embeddings-expert
+    name: Embeddings Expert
+    tier: 2
+    token_cost: 6500
+    capabilities:
+      - Embedding model selection
+      - Vector database integration
+      - Similarity search optimization
+      - Chunking strategies
+    auto_load_when:
+      keywords: [embedding, vector, similarity, semantic search]
+    mcp_connections: [qdrant]
+
+  # ---------------------------------------------------------------------------
+  # RESEARCH SKILLS (5) - Deep Investigation
+  # ---------------------------------------------------------------------------
+
+  - id: competitor-analyzer
+    name: Competitor Analyzer
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Competitor feature analysis
+      - Pricing comparison
+      - Tech stack detection
+      - Market positioning
+    auto_load_when:
+      keywords: [competitor, comparison, "vs", alternative, compete]
+    mcp_connections: [tavily, exa, firecrawl]
+
+  - id: market-researcher
+    name: Market Researcher
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Market size estimation
+      - Trend analysis
+      - User persona research
+      - Growth opportunities
+    auto_load_when:
+      keywords: [market research, tam, market size, opportunity]
+    mcp_connections: [tavily, exa]
+
+  - id: trend-spotter-skill
+    name: Trend Spotter
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Emerging tech trends
+      - Social media trends
+      - Industry pattern detection
+      - Narrative tracking
+    auto_load_when:
+      keywords: [trend, emerging, "what's hot", narrative]
+    mcp_connections: [tavily, santiment]
+
+  - id: academic-researcher
+    name: Academic Researcher
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Paper search and summarization
+      - Citation network analysis
+      - Methodology extraction
+      - Research synthesis
+    auto_load_when:
+      keywords: [paper, research, academic, arxiv, study]
+    mcp_connections: [tavily, exa]
+
+  - id: patent-analyzer
+    name: Patent Analyzer
+    tier: 3
+    token_cost: 6000
+    capabilities:
+      - Patent search
+      - Prior art analysis
+      - Claim breakdown
+      - IP landscape mapping
+    auto_load_when:
+      keywords: [patent, ip, intellectual property, prior art]
+    mcp_connections: [tavily, exa]
+
+  # ---------------------------------------------------------------------------
+  # BLOCKCHAIN SKILLS (5) - Advanced Web3
+  # ---------------------------------------------------------------------------
+
+  - id: cross-chain-expert
+    name: Cross-Chain Expert
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Multi-chain architecture
+      - Interoperability patterns
+      - Chain abstraction
+      - Cross-chain messaging
+    auto_load_when:
+      keywords: [cross-chain, multi-chain, interop, bridge]
+    mcp_connections: [helius]
+
+  - id: bridge-expert
+    name: Bridge Expert
+    tier: 2
+    token_cost: 7000
+    capabilities:
+      - Bridge protocol integration
+      - Wormhole, LayerZero
+      - Cross-chain swaps
+      - Security considerations
+    auto_load_when:
+      keywords: [bridge, wormhole, layerzero, cross-chain transfer]
+    mcp_connections: [helius]
+
+  - id: staking-expert
+    name: Staking Expert
+    tier: 2
+    token_cost: 6500
+    capabilities:
+      - Stake pool management
+      - Validator selection
+      - Rewards calculation
+      - Liquid staking
+    auto_load_when:
+      keywords: [staking, stake, validator, delegat, liquid staking]
+    mcp_connections: [helius, solana]
+
+  - id: governance-expert
+    name: Governance Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - DAO governance patterns
+      - Proposal systems
+      - Voting mechanisms
+      - Treasury management
+    auto_load_when:
+      keywords: [governance, dao, proposal, voting, treasury]
+    mcp_connections: [helius]
+
+  - id: nft-marketplace-expert
+    name: NFT Marketplace Expert
+    tier: 2
+    token_cost: 7500
+    capabilities:
+      - Marketplace architecture
+      - Listing and bidding
+      - Royalty enforcement
+      - Collection management
+    auto_load_when:
+      keywords: [nft marketplace, collection, listing, auction]
+    mcp_connections: [helius]
+
+  # ---------------------------------------------------------------------------
+  # DEVOPS SKILLS (4) - Infrastructure & Deployment
+  # ---------------------------------------------------------------------------
+
+  - id: db-commander
+    name: DB Commander
+    tier: 2
+    token_cost: 9000
+    capabilities:
+      - PostgreSQL/MySQL/MongoDB/Redis management
+      - Database schema design and migrations
+      - Query optimization and performance tuning
+      - Connection pooling and resource management
+      - Backup strategies and disaster recovery
+      - Database monitoring and alerting
+      - ORM integration (Prisma, Drizzle)
+    auto_load_when:
+      keywords: [database, postgres, mysql, mongodb, redis, sql, migration, query, optimize, backup, connection pool, index, performance, transaction, cache, prisma, drizzle]
+    mcp_connections: [postgres, supabase]
+
+  - id: kubernetes-expert
+    name: Kubernetes Expert
+    tier: 2
+    token_cost: 9500
+    capabilities:
+      - K8s cluster management and orchestration
+      - Deployment strategies (rolling, blue-green, canary)
+      - Helm charts and package management
+      - Service mesh configuration
+      - Horizontal and vertical pod autoscaling
+      - StatefulSets and persistent storage
+      - Ingress and load balancing
+      - RBAC and security policies
+      - ConfigMaps and Secrets management
+    auto_load_when:
+      keywords: [kubernetes, k8s, helm, cluster, pod, deployment, service, ingress, container orchestration, scale, hpa, statefulset, configmap, secret]
+    mcp_connections: [github]
+
+  - id: prometheus-expert
+    name: Prometheus Expert
+    tier: 3
+    token_cost: 7500
+    capabilities:
+      - Metrics collection and scraping
+      - PromQL query language
+      - Recording rules for aggregations
+      - Alerting rules and alert management
+      - Service discovery configuration
+      - Application instrumentation
+      - Remote storage integration
+      - High availability setup
+    auto_load_when:
+      keywords: [prometheus, metrics, monitoring, promql, alerting, observability, scrape, exporter, recording rules]
+    mcp_connections: []
+
+  - id: grafana-expert
+    name: Grafana Expert
+    tier: 3
+    token_cost: 7000
+    capabilities:
+      - Dashboard creation and design
+      - Panel configuration (timeseries, stat, gauge, table, heatmap)
+      - Data source integration (Prometheus, Loki, Tempo)
+      - Template variables and dynamic dashboards
+      - Alert rule configuration
+      - Query transformations
+      - Provisioning and API automation
+      - Contact points and notification policies
+    auto_load_when:
+      keywords: [grafana, dashboard, visualization, panel, alert, query, graph, metrics dashboard]
+    mcp_connections: []
+
+  - id: nginx-expert
+    name: Nginx Expert
+    tier: 3
+    token_cost: 7500
+    capabilities:
+      - Reverse proxy configuration
+      - Load balancing strategies
+      - SSL/TLS termination
+      - Caching strategies (full-page, microcaching)
+      - Rate limiting and security
+      - Static file serving optimization
+      - WebSocket support
+      - HTTP/2 and performance tuning
+      - CDN integration
+    auto_load_when:
+      keywords: [nginx, reverse proxy, load balancer, web server, ssl, tls, proxy, upstream, cache, rate limit]
+    mcp_connections: []
+
+  # ---------------------------------------------------------------------------
+  # SPECIALIZED SKILLS (7) - Additional Coverage
+  # ---------------------------------------------------------------------------
+
+  - id: websocket-expert
+    name: WebSocket Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - WebSocket server/client
+      - Real-time sync
+      - Reconnection handling
+      - Room/channel patterns
+    auto_load_when:
+      keywords: [websocket, socket, realtime, live updates]
+    mcp_connections: [context7]
+
+  - id: queue-expert
+    name: Queue Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Message queue patterns
+      - BullMQ integration
+      - Job scheduling
+      - Retry strategies
+    auto_load_when:
+      keywords: [queue, job, bullmq, redis queue, worker]
+    mcp_connections: []
+
+  - id: caching-expert
+    name: Caching Expert
+    tier: 2
+    token_cost: 5500
+    capabilities:
+      - Redis caching patterns
+      - Cache invalidation
+      - CDN configuration
+      - Multi-layer caching
+    auto_load_when:
+      keywords: [cache, redis, cdn, invalidation]
+    mcp_connections: []
+
+  - id: search-expert
+    name: Search Expert
+    tier: 2
+    token_cost: 6500
+    capabilities:
+      - Full-text search setup
+      - Elasticsearch/Meilisearch
+      - Faceted search
+      - Autocomplete
+    auto_load_when:
+      keywords: [search, elasticsearch, meilisearch, full-text]
+    mcp_connections: []
+
+  - id: i18n-expert
+    name: Internationalization Expert
+    tier: 3
+    token_cost: 5000
+    capabilities:
+      - i18next setup
+      - Translation management
+      - RTL support
+      - Date/number formatting
+    auto_load_when:
+      keywords: [i18n, internationalization, translation, localization]
+    mcp_connections: [context7]
+
+  - id: a11y-expert
+    name: Accessibility Expert
+    tier: 3
+    token_cost: 5500
+    capabilities:
+      - WCAG compliance
+      - Screen reader testing
+      - Keyboard navigation
+      - ARIA attributes
+    auto_load_when:
+      keywords: [accessibility, a11y, wcag, screen reader]
+    mcp_connections: []
+
+  - id: pwa-expert
+    name: PWA Expert
+    tier: 2
+    token_cost: 6000
+    capabilities:
+      - Service worker setup
+      - Offline functionality
+      - Push notifications
+      - Install prompts
+    auto_load_when:
+      keywords: [pwa, service worker, offline, progressive web]
+    mcp_connections: [context7]
+
+# =============================================================================
+# v5.0 SKILLS - "THE BRAIN UPDATE"
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # DOCUMENT GENERATION SKILLS (4) - Professional Document Creation
+  # ---------------------------------------------------------------------------
+
+  - id: excel-sheets-master
+    name: Excel/Sheets Master
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Excel/Google Sheets generation (ExcelJS, SheetJS)
+      - Advanced formulas and calculations
+      - Cell styling and formatting
+      - Charts and visualizations
+      - Data validation and dropdowns
+      - Pivot tables and large dataset optimization
+    auto_load_when:
+      keywords: [excel, spreadsheet, xlsx, csv, sheets, table, "financial report"]
+    mcp_connections: []
+
+  - id: powerpoint-slides-master
+    name: PowerPoint/Slides Master
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - PowerPoint/Google Slides generation (PptxGenJS)
+      - Professional slide layouts
+      - Charts and tables
+      - Images and media
+      - Animations and transitions
+      - Master slides and templates
+    auto_load_when:
+      keywords: [powerpoint, slides, presentation, pptx, deck, "slide deck"]
+    mcp_connections: []
+
+  - id: pdf-report-generator
+    name: PDF Report Generator
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - PDF generation (PDFKit, jsPDF, Puppeteer)
+      - Document structure and pagination
+      - Tables and charts
+      - Images and watermarks
+      - Headers and footers
+      - Form fields and interactive elements
+    auto_load_when:
+      keywords: [pdf, report, document, invoice, certificate, "generate pdf"]
+    mcp_connections: []
+
+  - id: chart-visualization-expert
+    name: Chart Visualization Expert
+    tier: 2
+    token_cost: 8000
+    capabilities:
+      - Data visualization (Chart.js, D3.js, Recharts)
+      - All chart types (bar, line, pie, scatter, radar, etc.)
+      - Interactive features and animations
+      - Real-time updates
+      - Custom styling and themes
+      - Export to PNG/SVG
+    auto_load_when:
+      keywords: [chart, graph, visualization, d3, chartjs, recharts, "data viz"]
+    mcp_connections: []

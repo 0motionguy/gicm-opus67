@@ -1,0 +1,26 @@
+# Prometheus Expert
+
+> **ID:** `prometheus-expert`
+> **Tier:** 3
+> **Token Cost:** 8000
+> **MCP Connections:** docker, kubernetes
+
+## What This Skill Does
+
+Master Prometheus monitoring with production-grade patterns, alerting, recording rules, and service discovery configurations.
+
+- Design comprehensive monitoring strategies
+- Implement efficient metric collection
+- Configure advanced alerting rules
+- Optimize query performance with PromQL
+- Set up service discovery patterns
+- Handle high-cardinality metrics
+- Implement federation and remote write
+
+## When to Use
+
+This skill is automatically loaded when:
+
+- **Keywords:** prometheus, monitoring, metrics, alerting, promql, grafana
+- **File Types:** .yml, .yaml (prometheus configs), .rules
+- **Directories:** monitoring/, prometheus/, alerts/

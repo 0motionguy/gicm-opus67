@@ -1,0 +1,2382 @@
+# OPUS 67 MCP Connections Registry
+# Version: 5.1.0 - Full MCP Expansion (82 integrations)
+# Total Connections: 82 (Target Achieved!)
+
+meta:
+  version: "6.1.0"
+  total_connections: 83
+  target_connections: 83
+  auto_connect_enabled: true
+  connection_timeout_ms: 5000
+  retry_attempts: 3
+
+# =============================================================================
+# BLOCKCHAIN MCPs
+# =============================================================================
+
+blockchain:
+  helius:
+    name: Helius
+    type: custom_mcp
+    category: blockchain
+    priority: 1
+    description: Solana RPC, webhooks, and enhanced APIs
+    base_url: https://api.helius.xyz
+    auth:
+      type: api_key
+      env_var: HELIUS_API_KEY
+    capabilities:
+      - getAssetsByOwner
+      - getAssetsByCreator
+      - searchAssets
+      - getTransaction
+      - getSignaturesForAddress
+      - webhooks
+      - priority_fees
+    rate_limit:
+      requests_per_second: 50
+      requests_per_day: 100000
+    pricing:
+      tier: free
+      free_limit: "100K credits/month"
+      paid_starts: "$49/month"
+    auto_connect_when:
+      keywords: [solana, wallet, nft, transaction, rpc]
+      skills: [solana-anchor-expert, wallet-integration, defi-data-analyst]
+
+  jupiter:
+    name: Jupiter Aggregator
+    type: rest_api
+    category: blockchain
+    priority: 1
+    description: Best DEX aggregator for Solana swaps
+    base_url: https://quote-api.jup.ag/v6
+    auth:
+      type: none
+    capabilities:
+      - quote
+      - swap
+      - tokens
+      - price
+      - route_map
+    rate_limit:
+      requests_per_second: 10
+      requests_per_minute: 600
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [swap, dex, price, trade, jupiter]
+      skills: [bonding-curve-master, lp-automation]
+
+  birdeye:
+    name: Birdeye
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Token analytics, charts, and market data
+    base_url: https://public-api.birdeye.so
+    auth:
+      type: api_key
+      env_var: BIRDEYE_API_KEY
+      header: X-API-KEY
+    capabilities:
+      - token_price
+      - token_security
+      - token_overview
+      - ohlcv
+      - trades
+      - wallet_portfolio
+    rate_limit:
+      requests_per_minute: 100
+    pricing:
+      tier: free
+      free_limit: "1000 requests/day"
+      paid_starts: "$99/month"
+    auto_connect_when:
+      keywords: [price, chart, analytics, token, birdeye]
+      skills: [defi-data-analyst, bonding-curve-master]
+
+# =============================================================================
+# SOCIAL INTELLIGENCE MCPs
+# =============================================================================
+
+social:
+  santiment:
+    name: Santiment
+    type: graphql
+    category: social
+    priority: 1
+    description: Crypto social sentiment from Twitter, Reddit, Telegram
+    base_url: https://api.santiment.net/graphql
+    auth:
+      type: api_key
+      env_var: SANTIMENT_API_KEY
+    capabilities:
+      - social_volume
+      - social_dominance
+      - sentiment_balance
+      - trending_words
+      - top_social_gainers
+      - github_activity
+    rate_limit:
+      requests_per_minute: 60
+    pricing:
+      tier: free
+      free_limit: "Limited historical data"
+      paid_starts: "$49/month"
+    auto_connect_when:
+      keywords: [sentiment, social, trending, twitter, reddit]
+      skills: [crypto-twitter-analyst, defi-data-analyst]
+
+  tweetscout:
+    name: TweetScout
+    type: rest_api
+    category: social
+    priority: 1
+    description: Crypto Twitter scoring and influencer analytics
+    base_url: https://api.tweetscout.io/v2
+    auth:
+      type: api_key
+      env_var: TWEETSCOUT_API_KEY
+    capabilities:
+      - score_account
+      - top_followers
+      - fake_follower_detection
+      - engagement_rate
+      - similar_accounts
+      - token_mentions
+    rate_limit:
+      requests_per_minute: 30
+    pricing:
+      tier: free
+      free_limit: "50 lookups/day"
+      paid_starts: "$29/month"
+    auto_connect_when:
+      keywords: [twitter, influencer, kol, score, fake followers]
+      skills: [crypto-twitter-analyst]
+
+  neynar:
+    name: Neynar
+    type: rest_api
+    category: social
+    priority: 2
+    description: Farcaster protocol API
+    base_url: https://api.neynar.com/v2
+    auth:
+      type: api_key
+      env_var: NEYNAR_API_KEY
+      header: api_key
+    capabilities:
+      - user_by_fid
+      - user_search
+      - cast_by_hash
+      - feed
+      - channels
+      - reactions
+      - notifications
+    rate_limit:
+      requests_per_minute: 300
+    pricing:
+      tier: free
+      free_limit: "300 requests/min"
+      paid_starts: "$9/month"
+    auto_connect_when:
+      keywords: [farcaster, cast, frame, warpcast, neynar]
+      skills: [farcaster-expert]
+
+# =============================================================================
+# DATA & DATABASE MCPs
+# =============================================================================
+
+data:
+  postgres:
+    name: PostgreSQL
+    type: mcp_server
+    category: data
+    priority: 1
+    description: Direct database access via MCP
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@modelcontextprotocol/server-postgres"]
+    auth:
+      type: connection_string
+      env_var: DATABASE_URL
+    capabilities:
+      - query
+      - schema_inspect
+      - tables_list
+    auto_connect_when:
+      keywords: [database, postgres, sql, query]
+      skills: [sql-database, prisma-orm, node-backend]
+
+  supabase:
+    name: Supabase
+    type: mcp_server
+    category: data
+    priority: 1
+    description: Supabase database, auth, storage, and real-time
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@supabase/mcp-server"]
+    auth:
+      type: api_key
+      env_var: SUPABASE_SERVICE_ROLE_KEY
+    env_vars:
+      - SUPABASE_URL
+      - SUPABASE_SERVICE_ROLE_KEY
+    capabilities:
+      - query
+      - insert
+      - update
+      - delete
+      - rpc
+      - storage_list
+      - storage_upload
+      - auth_users
+      - realtime_subscribe
+    rate_limit:
+      requests_per_second: 100
+    pricing:
+      tier: free
+      free_limit: "500MB database, 1GB storage"
+      paid_starts: "$25/month"
+    auto_connect_when:
+      keywords: [supabase, rls, realtime, storage, auth]
+      skills: [supabase-expert, sql-database, auth-security, nextjs-14-expert]
+
+  filesystem:
+    name: Filesystem
+    type: mcp_server
+    category: data
+    priority: 1
+    description: Project file access
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@modelcontextprotocol/server-filesystem", "/workspace"]
+    capabilities:
+      - read_file
+      - write_file
+      - list_directory
+      - search_files
+    auto_connect_when:
+      keywords: [file, read, write, project]
+      skills: [all]
+
+# =============================================================================
+# DOCUMENTATION & CONTEXT MCPs
+# =============================================================================
+
+documentation:
+  context7:
+    name: Context7
+    type: mcp_server
+    category: documentation
+    priority: 1
+    description: Up-to-date documentation for libraries and frameworks
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@context7/mcp-server"]
+    auth:
+      type: none
+    capabilities:
+      - resolve_library_id
+      - get_library_docs
+      - search_docs
+      - get_latest_version
+    supported_libraries:
+      - react
+      - nextjs
+      - typescript
+      - tailwindcss
+      - prisma
+      - supabase
+      - express
+      - fastify
+      - zod
+      - trpc
+      - drizzle
+      - lucia-auth
+      - tanstack-query
+      - zustand
+      - jotai
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [docs, documentation, api, reference, library, how to]
+      skills: [react-expert, nextjs-14-expert, typescript-senior, node-backend, api-integration, mcp-builder]
+
+# =============================================================================
+# TESTING & AUTOMATION MCPs
+# =============================================================================
+
+testing:
+  playwright:
+    name: Playwright
+    type: mcp_server
+    category: testing
+    priority: 1
+    description: Browser automation and E2E testing
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-playwright"]
+    auth:
+      type: none
+    capabilities:
+      - navigate
+      - click
+      - fill
+      - screenshot
+      - get_text
+      - wait_for_selector
+      - evaluate
+      - assert_visible
+      - assert_text
+      - network_intercept
+    browser_support:
+      - chromium
+      - firefox
+      - webkit
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [e2e, test, browser, automation, playwright, selenium, puppeteer]
+      skills: [testing-playwright, html-accessibility]
+
+  stagehand:
+    name: Stagehand
+    type: mcp_server
+    category: testing
+    priority: 1
+    description: Natural language browser automation - tell it what to do in plain English
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-stagehand"]
+    auth:
+      type: none
+    capabilities:
+      - act
+      - extract
+      - observe
+      - navigate_to
+      - click_element
+      - fill_form
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [automate, "click on", "fill in", "go to", browser, natural language]
+      skills: [browser-automator]
+
+# =============================================================================
+# PRODUCTIVITY MCPs
+# =============================================================================
+
+productivity:
+  github:
+    name: GitHub
+    type: mcp_server
+    category: productivity
+    priority: 1
+    description: Repository management and code access
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@modelcontextprotocol/server-github"]
+    auth:
+      type: token
+      env_var: GITHUB_TOKEN
+    capabilities:
+      - search_repositories
+      - get_file_contents
+      - create_issue
+      - create_pull_request
+      - list_commits
+      - search_code
+      - list_branches
+      - get_diff
+    auto_connect_when:
+      keywords: [github, repo, commit, pr, issue, branch]
+      skills: [git-expert, devops-engineer]
+
+  slack:
+    name: Slack
+    type: mcp_server
+    category: productivity
+    priority: 3
+    description: Team communication
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@modelcontextprotocol/server-slack"]
+    auth:
+      type: token
+      env_var: SLACK_BOT_TOKEN
+    capabilities:
+      - list_channels
+      - post_message
+      - get_channel_history
+      - search_messages
+    auto_connect_when:
+      keywords: [slack, message, channel, notify]
+      skills: []
+
+  notion:
+    name: Notion
+    type: mcp_server
+    category: productivity
+    priority: 2
+    description: Documentation and knowledge base
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@modelcontextprotocol/server-notion"]
+    auth:
+      type: token
+      env_var: NOTION_API_KEY
+    capabilities:
+      - search_pages
+      - get_page
+      - create_page
+      - update_page
+      - query_database
+    auto_connect_when:
+      keywords: [notion, docs, wiki, knowledge]
+      skills: [content-writer]
+
+  vercel:
+    name: Vercel
+    type: rest_api
+    category: productivity
+    priority: 2
+    description: Deployment and hosting
+    base_url: https://api.vercel.com
+    auth:
+      type: bearer
+      env_var: VERCEL_TOKEN
+    capabilities:
+      - list_deployments
+      - get_deployment
+      - create_deployment
+      - list_domains
+      - get_logs
+    auto_connect_when:
+      keywords: [vercel, deploy, hosting, domain]
+      skills: [devops-engineer, nextjs-14-expert]
+
+# =============================================================================
+# CONNECTION GROUPS
+# =============================================================================
+
+groups:
+  blockchain_full:
+    connections: [helius, jupiter, birdeye]
+    description: Full blockchain data access
+
+  social_intelligence:
+    connections: [santiment, tweetscout, neynar]
+    description: Crypto social analytics
+
+  development:
+    connections: [github, postgres, filesystem, context7]
+    description: Development workflow
+
+  token_launch:
+    connections: [helius, jupiter, birdeye, santiment, tweetscout]
+    description: Everything needed for token analysis and launch
+
+  web2_full_stack:
+    connections: [supabase, postgres, github, context7, playwright]
+    description: Complete web2 development stack
+
+  testing_suite:
+    connections: [playwright, github, filesystem]
+    description: Testing and automation
+
+  supabase_stack:
+    connections: [supabase, context7, github, vercel]
+    description: Supabase-based application development
+
+# =============================================================================
+# AI & SEARCH MCPs (NEW)
+# =============================================================================
+
+ai_search:
+  brave_search:
+    name: Brave Search
+    type: mcp_server
+    category: ai_search
+    priority: 1
+    description: Privacy-focused web search with AI summaries
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-brave-search"]
+    auth:
+      type: api_key
+      env_var: BRAVE_API_KEY
+    capabilities:
+      - web_search
+      - local_search
+      - news_search
+      - image_search
+    pricing:
+      tier: free
+      free_limit: "2000 queries/month"
+    auto_connect_when:
+      keywords: [search, find, look up, google, web, news]
+      skills: [content-writer, defi-data-analyst]
+
+  exa:
+    name: Exa AI Search
+    type: rest_api
+    category: ai_search
+    priority: 2
+    description: AI-native semantic search for finding similar content
+    base_url: https://api.exa.ai
+    auth:
+      type: api_key
+      env_var: EXA_API_KEY
+    capabilities:
+      - search
+      - find_similar
+      - get_contents
+      - neural_search
+    pricing:
+      tier: free
+      free_limit: "1000 searches/month"
+    auto_connect_when:
+      keywords: [similar, find like, semantic, neural search]
+      skills: [content-writer, ai-integration]
+
+  firecrawl:
+    name: Firecrawl
+    type: mcp_server
+    category: ai_search
+    priority: 2
+    description: Web scraping and crawling for LLMs
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "firecrawl-mcp"]
+    auth:
+      type: api_key
+      env_var: FIRECRAWL_API_KEY
+    capabilities:
+      - scrape
+      - crawl
+      - map
+      - extract
+    pricing:
+      tier: free
+      free_limit: "500 pages/month"
+    auto_connect_when:
+      keywords: [scrape, crawl, extract, website data]
+      skills: [api-integration, web-scraper]
+
+  tavily:
+    name: Tavily
+    type: mcp_server
+    category: ai_search
+    priority: 1
+    description: AI-powered search optimized for research and deep dives
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "tavily-mcp"]
+    auth:
+      type: api_key
+      env_var: TAVILY_API_KEY
+    capabilities:
+      - search
+      - extract
+      - qna
+      - news_search
+    pricing:
+      tier: free
+      free_limit: "1000 searches/month"
+    auto_connect_when:
+      keywords: [research, investigate, "find out", "deep dive", search]
+      skills: [deep-researcher]
+
+  jina:
+    name: Jina Reader
+    type: mcp_server
+    category: ai_search
+    priority: 2
+    description: URL-to-markdown conversion for LLM ingestion
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-jina-reader"]
+    auth:
+      type: none
+    capabilities:
+      - read_url
+      - extract_content
+      - convert_to_markdown
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [read url, convert, markdown, page content]
+      skills: [web-scraper, theme-grab]
+
+# =============================================================================
+# AI/LLM TOOLS MCPs (v4.0 - NEW)
+# =============================================================================
+
+ai_tools:
+  langsmith:
+    name: LangSmith
+    type: rest_api
+    category: ai_tools
+    priority: 1
+    description: LLM observability, tracing, evaluation, and prompt management
+    base_url: https://api.smith.langchain.com
+    auth:
+      type: api_key
+      env_var: LANGSMITH_API_KEY
+    capabilities:
+      - trace_runs
+      - evaluate_chains
+      - monitor_costs
+      - create_dataset
+      - run_evaluation
+      - get_feedback
+      - compare_experiments
+    rate_limit:
+      requests_per_minute: 600
+    pricing:
+      tier: free
+      free_limit: "5K traces/month"
+      paid_starts: "$39/month"
+    auto_connect_when:
+      keywords: [langchain, langsmith, trace, llm debug, evaluation, prompt testing]
+      skills: [ai-native-stack, langchain-expert]
+
+  vercel_ai:
+    name: Vercel AI SDK
+    type: mcp_server
+    category: ai_tools
+    priority: 1
+    description: Streaming AI responses and chat UI components for React/Next.js
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@ai-sdk/provider-utils"]
+    auth:
+      type: none
+    capabilities:
+      - stream_completion
+      - generate_embedding
+      - use_chat
+      - use_completion
+      - tool_calls
+      - structured_output
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [vercel ai, ai sdk, useChat, useCompletion, streaming, ai/react]
+      skills: [ai-native-stack, nextjs-14-expert]
+
+# =============================================================================
+# MEMORY & PERSISTENCE MCPs (NEW)
+# =============================================================================
+
+persistence:
+  memory:
+    name: Memory
+    type: mcp_server
+    category: persistence
+    priority: 1
+    description: Persistent memory across conversations
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-memory"]
+    auth:
+      type: none
+    capabilities:
+      - store_memory
+      - retrieve_memory
+      - search_memories
+      - forget
+      - list_entities
+    auto_connect_when:
+      keywords: [remember, recall, memory, forget, stored]
+      skills: [all]
+
+  sqlite:
+    name: SQLite
+    type: mcp_server
+    category: persistence
+    priority: 2
+    description: Local SQLite database for persistence
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-sqlite", "opus67.db"]
+    capabilities:
+      - query
+      - execute
+      - list_tables
+      - describe_table
+    auto_connect_when:
+      keywords: [local db, sqlite, store, persist]
+      skills: [sql-database]
+
+  opus67_memory:
+    name: OPUS 67 Unified Memory
+    type: internal
+    category: persistence
+    priority: 0
+    description: OPUS 67 unified memory with multi-hop reasoning (4 adapters, 7 sources)
+    connection:
+      type: internal
+      command: opus67-memory
+    capabilities:
+      - queryMemory
+      - multiHopQuery
+      - writeMemory
+      - semantic_search
+      - keyword_search
+      - multi_hop_reasoning
+      - fact_storage
+      - episode_storage
+      - learning_sync
+    auto_connect_when:
+      keywords: [remember, recall, context, what did, previous, learned, decided]
+      skills: [all]
+
+  screenpipe:
+    name: ScreenPipe
+    type: mcp_server
+    category: persistence
+    priority: 2
+    description: Desktop activity recording and context awareness
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "screenpipe-mcp"]
+    auth:
+      type: none
+    capabilities:
+      - search_activity
+      - get_context
+      - query_history
+      - get_recent_activity
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [desktop, "what was I doing", history, activity, screen]
+      skills: [desktop-context]
+
+# =============================================================================
+# REASONING MCPs (NEW)
+# =============================================================================
+
+reasoning:
+  sequential_thinking:
+    name: Sequential Thinking
+    type: mcp_server
+    category: reasoning
+    priority: 1
+    description: Step-by-step reasoning for complex problems
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-sequential-thinking"]
+    capabilities:
+      - create_thought
+      - chain_thoughts
+      - branch_thinking
+      - revise_thought
+      - summarize_chain
+    auto_connect_when:
+      keywords: [think step by step, reason, complex, analyze deeply]
+      skills: [smart-contract-auditor, design-system-architect]
+
+# =============================================================================
+# v4.1 LEARNING LAYER MCPs (NEW)
+# =============================================================================
+
+learning:
+  acontext:
+    name: AContext
+    type: rest_api
+    category: learning
+    priority: 1
+    description: Self-learning agent platform for auto-SOP generation and success tracking
+    base_url: http://localhost:8029/api/v1
+    auth:
+      type: bearer
+      env_var: ACONTEXT_API_KEY
+    capabilities:
+      - record_task
+      - extract_sop
+      - get_success_rate
+      - list_learned_skills
+      - get_task_history
+      - update_preferences
+    pricing:
+      tier: free
+      free_limit: "Self-hosted unlimited"
+    dashboard:
+      port: 3001
+      url: http://localhost:3001
+    auto_connect_when:
+      keywords: [learn, sop, success, pattern, auto-generate, workflow]
+      skills: [learning-observer, skills-navigator]
+
+# =============================================================================
+# v3.2 STORAGE LAYER MCPs (5-Storage Architecture)
+# =============================================================================
+
+storage:
+  qdrant:
+    name: Qdrant
+    type: mcp_server
+    category: storage
+    priority: 1
+    description: Vector database for embeddings and RAG pipelines
+    connection:
+      type: mcp_stdio
+      command: uvx
+      args: ["mcp-server-qdrant"]
+    env_vars:
+      QDRANT_URL: "http://localhost:6333"
+      COLLECTION_NAME: "opus67"
+      EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
+    capabilities:
+      - qdrant-store
+      - qdrant-find
+      - create_collection
+      - similarity_search
+    pricing:
+      tier: free
+      free_limit: "Self-hosted unlimited"
+    auto_connect_when:
+      keywords: [vector, embedding, similarity, rag, semantic search]
+      skills: [vector-wizard, ai-integration]
+
+  mem0:
+    name: Mem0
+    type: mcp_server
+    category: storage
+    priority: 1
+    description: Semantic memory across sessions with AI-powered recall
+    connection:
+      type: docker
+      command: docker
+      args: ["run", "--rm", "-i", "-e", "TRANSPORT", "-e", "LLM_PROVIDER", "-e", "LLM_API_KEY", "mcp/mem0"]
+    env_vars:
+      TRANSPORT: "stdio"
+      LLM_PROVIDER: "openai"
+      LLM_API_KEY: "${OPENAI_API_KEY}"
+    capabilities:
+      - save_memory
+      - get_all_memories
+      - search_memories
+      - delete_memory
+    pricing:
+      tier: free
+      free_limit: "Self-hosted unlimited or $20/mo cloud"
+    auto_connect_when:
+      keywords: [remember, recall, "you mentioned", context, cross-session]
+      skills: [memory-keeper]
+
+  neo4j:
+    name: Neo4j
+    type: mcp_server
+    category: storage
+    priority: 1
+    description: Graph database for relationships and dependency analysis
+    connection:
+      type: mcp_stdio
+      command: uvx
+      args: ["mcp-neo4j-cypher"]
+    env_vars:
+      NEO4J_URI: "bolt://localhost:7687"
+      NEO4J_USERNAME: "neo4j"
+      NEO4J_PASSWORD: "${NEO4J_PASSWORD}"
+      NEO4J_DATABASE: "opus67"
+    capabilities:
+      - read_neo4j_cypher
+      - write_neo4j_cypher
+      - get_neo4j_schema
+    pricing:
+      tier: free
+      free_limit: "Self-hosted or $65/mo Aura"
+    auto_connect_when:
+      keywords: [graph, relationship, depends on, connected, import chain]
+      skills: [graph-navigator]
+
+  graphiti:
+    name: Graphiti
+    type: mcp_server
+    category: storage
+    priority: 2
+    description: Temporal knowledge graph with fact versioning and time-based queries
+    connection:
+      type: mcp_stdio
+      command: python
+      args: ["-m", "graphiti.mcp_server"]
+    env_vars:
+      NEO4J_URI: "bolt://localhost:7687"
+      NEO4J_PASSWORD: "${NEO4J_PASSWORD}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+    capabilities:
+      - add_episode
+      - search
+      - get_entity_edge
+      - delete_episode
+    pricing:
+      tier: free
+      free_limit: "Self-hosted"
+    auto_connect_when:
+      keywords: [temporal, "what changed", history, evolution, versioning]
+      skills: [time-keeper]
+
+# =============================================================================
+# v3.2 INFRASTRUCTURE MCPs
+# =============================================================================
+
+infrastructure:
+  docker:
+    name: Docker
+    type: mcp_server
+    category: infrastructure
+    priority: 1
+    description: Container management and orchestration
+    connection:
+      type: mcp_stdio
+      command: uvx
+      args: ["docker-mcp"]
+    auth:
+      type: none
+    capabilities:
+      - create_container
+      - list_containers
+      - get_logs
+      - deploy_compose
+      - stop_container
+      - remove_container
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [docker, container, compose, image, deploy]
+      skills: [container-chief, docker-containers]
+
+# =============================================================================
+# v3.2 SOLANA STACK MCPs (THE MOAT)
+# =============================================================================
+
+solana_stack:
+  solana:
+    name: Solana RPC
+    type: mcp_server
+    category: blockchain
+    priority: 1
+    description: Direct Solana blockchain queries and transactions
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["solana-mcp"]
+    env_vars:
+      RPC_URL: "${HELIUS_RPC_URL}"
+      SOLANA_PRIVATE_KEY: "${SOLANA_PRIVATE_KEY}"
+    capabilities:
+      - get_balance
+      - get_token_accounts
+      - get_transaction
+      - get_account_info
+      - get_recent_blockhash
+      - send_transaction
+    pricing:
+      tier: free
+      free_limit: "RPC costs only"
+    auto_connect_when:
+      keywords: [solana, balance, wallet, transaction, "on chain"]
+      skills: [solana-reader]
+
+  solana_web3:
+    name: Solana Web3.js
+    type: mcp_server
+    category: blockchain
+    priority: 1
+    description: Solana development tools - keypair generation, program deployment, token creation
+    connection:
+      type: mcp_stdio
+      command: node
+      args: ["./mcp/solana-web3js/dist/index.js"]
+    env_vars:
+      RPC_URL: "${HELIUS_RPC_URL}"
+      SOLANA_PRIVATE_KEY: "${SOLANA_PRIVATE_KEY}"
+    capabilities:
+      - generate_keypair
+      - deploy_program
+      - create_token
+      - mint_tokens
+      - transfer
+      - create_ata
+    pricing:
+      tier: free
+      free_limit: "Network fees only"
+    auto_connect_when:
+      keywords: [deploy, program, token, mint, keypair, create]
+      skills: [solana-deployer]
+
+  chainstack:
+    name: Chainstack Solana
+    type: mcp_server
+    category: blockchain
+    priority: 2
+    description: Advanced Solana analytics - top holders, program accounts, real-time logs
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@chainstacklabs/solana-mcp"]
+    env_vars:
+      CHAINSTACK_API_KEY: "${CHAINSTACK_API_KEY}"
+      SOLANA_ENDPOINT: "${CHAINSTACK_SOLANA_URL}"
+    capabilities:
+      - get_signatures
+      - get_token_largest_accounts
+      - get_program_accounts
+      - subscribe_logs
+    pricing:
+      tier: paid
+      free_limit: "Limited"
+      paid_starts: "$29/mo Growth tier"
+    auto_connect_when:
+      keywords: [top holders, program accounts, analytics, chainstack]
+      skills: [defi-data-analyst]
+
+  anchor:
+    name: Anchor
+    type: custom_build
+    category: blockchain
+    priority: 1
+    status: planned
+    description: "Parse Anchor IDLs and generate instructions from natural language - UNIQUE KILLER FEATURE"
+    connection:
+      type: mcp_stdio
+      command: node
+      args: ["./mcp/anchor-mcp/index.js"]
+    env_vars:
+      IDL_PATH: "./target/idl/"
+      PROGRAM_ID: "${ICM_PROGRAM_ID}"
+      RPC_URL: "${HELIUS_RPC_URL}"
+    capabilities:
+      - parse_idl
+      - generate_instruction
+      - execute_instruction
+      - get_account_data
+      - simulate_transaction
+    note: "KILLER FEATURE - No competitor has this"
+    auto_connect_when:
+      keywords: [anchor, idl, instruction, program, cpi]
+      skills: [anchor-instructor, solana-anchor-expert]
+
+# =============================================================================
+# v3.2 DEVOPS MCPs
+# =============================================================================
+
+devops:
+  sentry:
+    name: Sentry
+    type: http
+    category: devops
+    priority: 1
+    description: Error tracking, bug resolution, and AI-powered debugging
+    url: "https://mcp.sentry.dev/mcp"
+    capabilities:
+      - list_projects
+      - list_issues
+      - get_issue
+      - list_events
+      - trigger_seer
+    pricing:
+      tier: free
+      free_limit: "5K errors/month"
+    auto_connect_when:
+      keywords: [error, bug, crash, sentry, stack trace, exception]
+      skills: [error-hunter]
+
+# =============================================================================
+# v5.1 AI/ML PROVIDERS MCPs (NEW - 6 MCPs)
+# =============================================================================
+
+ai_providers:
+  openai:
+    name: OpenAI
+    type: rest_api
+    category: ai_providers
+    priority: 1
+    description: GPT-4, DALL-E, Whisper, and embeddings
+    base_url: https://api.openai.com/v1
+    auth:
+      type: bearer
+      env_var: OPENAI_API_KEY
+    capabilities:
+      - chat_completions
+      - embeddings
+      - images_generate
+      - audio_transcription
+      - moderation
+      - assistants
+      - fine_tuning
+    rate_limit:
+      requests_per_minute: 500
+    pricing:
+      tier: paid
+      paid_starts: "$0.002/1K tokens"
+    auto_connect_when:
+      keywords: [openai, gpt, chatgpt, dalle, whisper, embedding]
+      skills: [ai-native-stack, ai-integration]
+
+  anthropic:
+    name: Anthropic
+    type: rest_api
+    category: ai_providers
+    priority: 1
+    description: Claude API for chat, analysis, and code generation
+    base_url: https://api.anthropic.com/v1
+    auth:
+      type: x-api-key
+      env_var: ANTHROPIC_API_KEY
+    capabilities:
+      - messages
+      - streaming
+      - vision
+      - tool_use
+      - long_context
+    rate_limit:
+      requests_per_minute: 1000
+    pricing:
+      tier: paid
+      paid_starts: "$3/M input tokens"
+    auto_connect_when:
+      keywords: [anthropic, claude, sonnet, opus, haiku]
+      skills: [ai-native-stack, ai-integration]
+
+  replicate:
+    name: Replicate
+    type: rest_api
+    category: ai_providers
+    priority: 2
+    description: Run open-source ML models in the cloud
+    base_url: https://api.replicate.com/v1
+    auth:
+      type: bearer
+      env_var: REPLICATE_API_TOKEN
+    capabilities:
+      - run_model
+      - create_prediction
+      - get_prediction
+      - list_models
+      - fine_tune
+    pricing:
+      tier: paid
+      paid_starts: "$0.000225/sec CPU"
+    auto_connect_when:
+      keywords: [replicate, stable diffusion, llama, open source model]
+      skills: [ai-integration]
+
+  together:
+    name: Together AI
+    type: rest_api
+    category: ai_providers
+    priority: 2
+    description: Fast inference for open-source LLMs
+    base_url: https://api.together.xyz/v1
+    auth:
+      type: bearer
+      env_var: TOGETHER_API_KEY
+    capabilities:
+      - chat_completions
+      - completions
+      - embeddings
+      - fine_tuning
+    rate_limit:
+      requests_per_minute: 600
+    pricing:
+      tier: paid
+      free_limit: "$25 free credits"
+      paid_starts: "$0.20/M tokens"
+    auto_connect_when:
+      keywords: [together, mixtral, llama, open source llm]
+      skills: [ai-integration]
+
+  groq:
+    name: Groq
+    type: rest_api
+    category: ai_providers
+    priority: 1
+    description: Ultra-fast LLM inference with LPU
+    base_url: https://api.groq.com/openai/v1
+    auth:
+      type: bearer
+      env_var: GROQ_API_KEY
+    capabilities:
+      - chat_completions
+      - audio_transcription
+      - tool_use
+    rate_limit:
+      requests_per_minute: 30
+    pricing:
+      tier: free
+      free_limit: "14.4K tokens/min"
+      paid_starts: "$0.05/M tokens"
+    auto_connect_when:
+      keywords: [groq, fast inference, llama, mixtral]
+      skills: [ai-integration, vibe-coder]
+
+  huggingface:
+    name: Hugging Face
+    type: rest_api
+    category: ai_providers
+    priority: 2
+    description: ML model hub and inference API
+    base_url: https://api-inference.huggingface.co
+    auth:
+      type: bearer
+      env_var: HUGGINGFACE_API_KEY
+    capabilities:
+      - inference
+      - embeddings
+      - text_generation
+      - image_classification
+      - object_detection
+    pricing:
+      tier: free
+      free_limit: "Rate limited"
+      paid_starts: "$9/month Pro"
+    auto_connect_when:
+      keywords: [huggingface, transformers, model hub, inference]
+      skills: [ai-integration]
+
+# =============================================================================
+# v5.1 EVM CHAIN MCPs (NEW - 5 MCPs)
+# =============================================================================
+
+evm_chains:
+  alchemy:
+    name: Alchemy
+    type: rest_api
+    category: blockchain
+    priority: 1
+    description: Ethereum and EVM chain RPC and enhanced APIs
+    base_url: https://eth-mainnet.g.alchemy.com/v2
+    auth:
+      type: api_key
+      env_var: ALCHEMY_API_KEY
+    capabilities:
+      - eth_call
+      - eth_getBalance
+      - eth_getTransactionReceipt
+      - alchemy_getTokenBalances
+      - alchemy_getAssetTransfers
+      - nft_apis
+      - webhooks
+    supported_chains:
+      - ethereum
+      - polygon
+      - arbitrum
+      - optimism
+      - base
+    rate_limit:
+      requests_per_second: 25
+    pricing:
+      tier: free
+      free_limit: "300M compute units/month"
+      paid_starts: "$49/month"
+    auto_connect_when:
+      keywords: [ethereum, alchemy, evm, nft, erc20, erc721]
+      skills: [ethersjs-integration-architect, evm-security-auditor]
+
+  infura:
+    name: Infura
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Ethereum and IPFS infrastructure
+    base_url: https://mainnet.infura.io/v3
+    auth:
+      type: api_key
+      env_var: INFURA_API_KEY
+    capabilities:
+      - eth_call
+      - eth_sendRawTransaction
+      - eth_getBalance
+      - ipfs_add
+      - ipfs_cat
+    supported_chains:
+      - ethereum
+      - polygon
+      - arbitrum
+      - optimism
+      - avalanche
+    rate_limit:
+      requests_per_second: 10
+    pricing:
+      tier: free
+      free_limit: "100K requests/day"
+      paid_starts: "$50/month"
+    auto_connect_when:
+      keywords: [infura, ethereum, ipfs, evm]
+      skills: [ethersjs-integration-architect]
+
+  etherscan:
+    name: Etherscan
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Ethereum blockchain explorer API
+    base_url: https://api.etherscan.io/api
+    auth:
+      type: api_key
+      env_var: ETHERSCAN_API_KEY
+    capabilities:
+      - get_abi
+      - verify_contract
+      - get_source_code
+      - get_transaction_status
+      - get_token_info
+      - get_gas_oracle
+    rate_limit:
+      requests_per_second: 5
+    pricing:
+      tier: free
+      free_limit: "5 calls/sec"
+      paid_starts: "$199/month"
+    auto_connect_when:
+      keywords: [etherscan, verify, abi, contract source]
+      skills: [evm-security-auditor, hardhat-deployment-specialist]
+
+  basescan:
+    name: Basescan
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Base L2 blockchain explorer API
+    base_url: https://api.basescan.org/api
+    auth:
+      type: api_key
+      env_var: BASESCAN_API_KEY
+    capabilities:
+      - get_abi
+      - verify_contract
+      - get_source_code
+      - get_transaction_status
+    rate_limit:
+      requests_per_second: 5
+    pricing:
+      tier: free
+      free_limit: "5 calls/sec"
+    auto_connect_when:
+      keywords: [base, basescan, coinbase, l2]
+      skills: [layer2-optimism-specialist]
+
+  the_graph:
+    name: The Graph
+    type: graphql
+    category: blockchain
+    priority: 1
+    description: Decentralized indexing protocol for blockchain data
+    base_url: https://gateway.thegraph.com/api
+    auth:
+      type: api_key
+      env_var: THEGRAPH_API_KEY
+    capabilities:
+      - query_subgraph
+      - list_subgraphs
+      - get_indexing_status
+    supported_chains:
+      - ethereum
+      - polygon
+      - arbitrum
+      - optimism
+      - base
+      - avalanche
+    pricing:
+      tier: paid
+      paid_starts: "$0.0004/query"
+    auto_connect_when:
+      keywords: [subgraph, thegraph, indexer, graphql blockchain]
+      skills: [graph-protocol-indexer]
+
+# =============================================================================
+# v5.1 DATABASE MCPs (NEW - 6 MCPs)
+# =============================================================================
+
+databases:
+  mongodb:
+    name: MongoDB Atlas
+    type: rest_api
+    category: database
+    priority: 2
+    description: Document database with Atlas Data API
+    base_url: https://data.mongodb-api.com/app
+    auth:
+      type: api_key
+      env_var: MONGODB_API_KEY
+    capabilities:
+      - find
+      - insertOne
+      - updateOne
+      - deleteOne
+      - aggregate
+    pricing:
+      tier: free
+      free_limit: "512MB storage"
+      paid_starts: "$9/month"
+    auto_connect_when:
+      keywords: [mongodb, mongo, document, nosql]
+      skills: [node-backend]
+
+  redis_upstash:
+    name: Upstash Redis
+    type: rest_api
+    category: database
+    priority: 1
+    description: Serverless Redis with REST API
+    base_url: https://redis.upstash.io
+    auth:
+      type: bearer
+      env_var: UPSTASH_REDIS_TOKEN
+    capabilities:
+      - get
+      - set
+      - hget
+      - hset
+      - lpush
+      - publish
+    pricing:
+      tier: free
+      free_limit: "10K commands/day"
+      paid_starts: "$0.20/100K commands"
+    auto_connect_when:
+      keywords: [redis, cache, upstash, session]
+      skills: [caching-expert, queue-expert]
+
+  planetscale:
+    name: PlanetScale
+    type: rest_api
+    category: database
+    priority: 2
+    description: Serverless MySQL with branching
+    base_url: https://api.planetscale.com/v1
+    auth:
+      type: bearer
+      env_var: PLANETSCALE_TOKEN
+    capabilities:
+      - create_branch
+      - deploy_request
+      - list_databases
+      - execute_query
+    pricing:
+      tier: free
+      free_limit: "5GB storage"
+      paid_starts: "$29/month"
+    auto_connect_when:
+      keywords: [planetscale, mysql, database branch]
+      skills: [sql-database, prisma-drizzle-orm]
+
+  turso:
+    name: Turso
+    type: rest_api
+    category: database
+    priority: 2
+    description: Edge SQLite database
+    base_url: https://api.turso.tech/v1
+    auth:
+      type: bearer
+      env_var: TURSO_API_TOKEN
+    capabilities:
+      - create_database
+      - execute_query
+      - list_databases
+      - replicate
+    pricing:
+      tier: free
+      free_limit: "9GB storage"
+      paid_starts: "$29/month"
+    auto_connect_when:
+      keywords: [turso, libsql, edge sqlite, sqlite]
+      skills: [sql-database, drizzle-studio]
+
+  neon:
+    name: Neon
+    type: rest_api
+    category: database
+    priority: 1
+    description: Serverless Postgres with branching
+    base_url: https://console.neon.tech/api/v2
+    auth:
+      type: bearer
+      env_var: NEON_API_KEY
+    capabilities:
+      - create_branch
+      - list_projects
+      - execute_sql
+      - get_connection_string
+    pricing:
+      tier: free
+      free_limit: "0.5GB storage"
+      paid_starts: "$19/month"
+    auto_connect_when:
+      keywords: [neon, serverless postgres, database branch]
+      skills: [neon-postgres, sql-database]
+
+  fauna:
+    name: Fauna
+    type: graphql
+    category: database
+    priority: 3
+    description: Distributed document-relational database
+    base_url: https://graphql.fauna.com/graphql
+    auth:
+      type: bearer
+      env_var: FAUNA_SECRET
+    capabilities:
+      - query
+      - mutation
+      - create_collection
+      - create_index
+    pricing:
+      tier: free
+      free_limit: "100K read ops/month"
+      paid_starts: "$25/month"
+    auto_connect_when:
+      keywords: [fauna, faunadb, serverless database]
+      skills: [graphql-expert]
+
+# =============================================================================
+# v5.1 DEVOPS & MONITORING MCPs (NEW - 5 MCPs)
+# =============================================================================
+
+monitoring:
+  datadog:
+    name: Datadog
+    type: rest_api
+    category: monitoring
+    priority: 2
+    description: Monitoring, APM, and log management
+    base_url: https://api.datadoghq.com/api/v1
+    auth:
+      type: api_key
+      env_var: DATADOG_API_KEY
+    capabilities:
+      - submit_metrics
+      - query_metrics
+      - create_dashboard
+      - list_monitors
+      - search_logs
+    pricing:
+      tier: paid
+      paid_starts: "$15/host/month"
+    auto_connect_when:
+      keywords: [datadog, monitoring, apm, metrics, logs]
+      skills: [prometheus-expert, grafana-expert]
+
+  newrelic:
+    name: New Relic
+    type: rest_api
+    category: monitoring
+    priority: 3
+    description: Full-stack observability platform
+    base_url: https://api.newrelic.com/v2
+    auth:
+      type: api_key
+      env_var: NEWRELIC_API_KEY
+    capabilities:
+      - get_applications
+      - get_metrics
+      - query_nrql
+      - create_alert
+    pricing:
+      tier: free
+      free_limit: "100GB ingest/month"
+      paid_starts: "$0.30/GB"
+    auto_connect_when:
+      keywords: [newrelic, apm, observability]
+      skills: [monitoring-specialist]
+
+  cloudflare:
+    name: Cloudflare
+    type: rest_api
+    category: infrastructure
+    priority: 1
+    description: CDN, DNS, Workers, and security
+    base_url: https://api.cloudflare.com/client/v4
+    auth:
+      type: bearer
+      env_var: CLOUDFLARE_API_TOKEN
+    capabilities:
+      - list_zones
+      - purge_cache
+      - create_worker
+      - update_dns
+      - get_analytics
+    pricing:
+      tier: free
+      free_limit: "Unlimited requests"
+      paid_starts: "$20/month Pro"
+    auto_connect_when:
+      keywords: [cloudflare, cdn, dns, worker, edge]
+      skills: [hono-expert, devops-engineer]
+
+  aws_lambda:
+    name: AWS Lambda
+    type: rest_api
+    category: infrastructure
+    priority: 2
+    description: Serverless compute
+    base_url: https://lambda.amazonaws.com
+    auth:
+      type: aws_sig4
+      env_vars: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    capabilities:
+      - invoke_function
+      - list_functions
+      - update_function_code
+      - get_function
+    pricing:
+      tier: free
+      free_limit: "1M requests/month"
+      paid_starts: "$0.20/1M requests"
+    auto_connect_when:
+      keywords: [aws, lambda, serverless, function]
+      skills: [devops-automation-stack]
+
+  grafana_cloud:
+    name: Grafana Cloud
+    type: rest_api
+    category: monitoring
+    priority: 2
+    description: Managed Grafana, Prometheus, and Loki
+    base_url: https://grafana.com/api
+    auth:
+      type: bearer
+      env_var: GRAFANA_API_KEY
+    capabilities:
+      - create_dashboard
+      - query_prometheus
+      - query_loki
+      - list_datasources
+    pricing:
+      tier: free
+      free_limit: "10K metrics"
+      paid_starts: "$49/month"
+    auto_connect_when:
+      keywords: [grafana, prometheus, loki, dashboard]
+      skills: [grafana-expert, prometheus-expert]
+
+# =============================================================================
+# v5.1 PRODUCTIVITY MCPs (NEW - 4 MCPs)
+# =============================================================================
+
+design_tools:
+  figma:
+    name: Figma
+    type: rest_api
+    category: design
+    priority: 1
+    description: Design and prototyping platform
+    base_url: https://api.figma.com/v1
+    auth:
+      type: bearer
+      env_var: FIGMA_ACCESS_TOKEN
+    capabilities:
+      - get_file
+      - get_images
+      - get_components
+      - get_styles
+      - get_team_projects
+    rate_limit:
+      requests_per_minute: 120
+    pricing:
+      tier: free
+      free_limit: "3 projects"
+      paid_starts: "$12/editor/month"
+    auto_connect_when:
+      keywords: [figma, design, component, style, mockup]
+      skills: [figma-to-code, figma-grab]
+
+project_management:
+  jira:
+    name: Jira
+    type: rest_api
+    category: productivity
+    priority: 2
+    description: Issue and project tracking
+    base_url: https://your-domain.atlassian.net/rest/api/3
+    auth:
+      type: basic
+      env_vars: [JIRA_EMAIL, JIRA_API_TOKEN]
+    capabilities:
+      - create_issue
+      - update_issue
+      - search_issues
+      - list_projects
+      - get_sprint
+    pricing:
+      tier: free
+      free_limit: "10 users"
+      paid_starts: "$7.75/user/month"
+    auto_connect_when:
+      keywords: [jira, issue, sprint, ticket, backlog]
+      skills: [devops-automation-stack]
+
+  asana:
+    name: Asana
+    type: rest_api
+    category: productivity
+    priority: 3
+    description: Work management platform
+    base_url: https://app.asana.com/api/1.0
+    auth:
+      type: bearer
+      env_var: ASANA_ACCESS_TOKEN
+    capabilities:
+      - create_task
+      - update_task
+      - list_projects
+      - get_workspace
+      - search_tasks
+    pricing:
+      tier: free
+      free_limit: "15 users"
+      paid_starts: "$10.99/user/month"
+    auto_connect_when:
+      keywords: [asana, task, project, workspace]
+      skills: [devops-automation-stack]
+
+  calendly:
+    name: Calendly
+    type: rest_api
+    category: productivity
+    priority: 3
+    description: Scheduling automation
+    base_url: https://api.calendly.com
+    auth:
+      type: bearer
+      env_var: CALENDLY_API_KEY
+    capabilities:
+      - list_events
+      - get_user
+      - list_event_types
+      - cancel_event
+    pricing:
+      tier: free
+      free_limit: "1 event type"
+      paid_starts: "$10/seat/month"
+    auto_connect_when:
+      keywords: [calendly, schedule, meeting, booking]
+      skills: [fullstack-blueprint-stack]
+
+# =============================================================================
+# v5.1 COMMUNICATION MCPs (NEW - 3 MCPs)
+# =============================================================================
+
+messaging:
+  telegram:
+    name: Telegram Bot
+    type: rest_api
+    category: communication
+    priority: 2
+    description: Telegram bot API for messaging
+    base_url: https://api.telegram.org/bot
+    auth:
+      type: token_in_url
+      env_var: TELEGRAM_BOT_TOKEN
+    capabilities:
+      - sendMessage
+      - sendPhoto
+      - getUpdates
+      - setWebhook
+      - getChat
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [telegram, bot, chat, notification]
+      skills: [fullstack-blueprint-stack]
+
+  twilio:
+    name: Twilio
+    type: rest_api
+    category: communication
+    priority: 2
+    description: SMS, voice, and WhatsApp API
+    base_url: https://api.twilio.com/2010-04-01
+    auth:
+      type: basic
+      env_vars: [TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN]
+    capabilities:
+      - send_sms
+      - send_whatsapp
+      - make_call
+      - get_messages
+    pricing:
+      tier: paid
+      paid_starts: "$0.0075/SMS"
+    auto_connect_when:
+      keywords: [twilio, sms, whatsapp, voice, phone]
+      skills: [fullstack-blueprint-stack]
+
+  sendgrid:
+    name: SendGrid
+    type: rest_api
+    category: communication
+    priority: 2
+    description: Email delivery API
+    base_url: https://api.sendgrid.com/v3
+    auth:
+      type: bearer
+      env_var: SENDGRID_API_KEY
+    capabilities:
+      - send_email
+      - create_template
+      - get_stats
+      - manage_contacts
+    rate_limit:
+      requests_per_second: 100
+    pricing:
+      tier: free
+      free_limit: "100 emails/day"
+      paid_starts: "$19.95/month"
+    auto_connect_when:
+      keywords: [sendgrid, email, smtp, transactional]
+      skills: [email-resend]
+
+# =============================================================================
+# v5.1 HOSTING MCPs (NEW - 4 MCPs)
+# =============================================================================
+
+hosting:
+  railway:
+    name: Railway
+    type: rest_api
+    category: hosting
+    priority: 1
+    description: Deploy apps with zero config
+    base_url: https://backboard.railway.app/graphql/v2
+    auth:
+      type: bearer
+      env_var: RAILWAY_API_TOKEN
+    capabilities:
+      - deploy
+      - list_projects
+      - get_logs
+      - manage_variables
+    pricing:
+      tier: free
+      free_limit: "$5 credit/month"
+      paid_starts: "$5/month + usage"
+    auto_connect_when:
+      keywords: [railway, deploy, hosting]
+      skills: [devops-engineer, deployment-strategist]
+
+  flyio:
+    name: Fly.io
+    type: rest_api
+    category: hosting
+    priority: 2
+    description: Run apps close to users globally
+    base_url: https://api.fly.io/graphql
+    auth:
+      type: bearer
+      env_var: FLY_API_TOKEN
+    capabilities:
+      - deploy_app
+      - list_apps
+      - get_logs
+      - scale_app
+    pricing:
+      tier: free
+      free_limit: "3 shared VMs"
+      paid_starts: "$1.94/month/VM"
+    auto_connect_when:
+      keywords: [fly, flyio, edge, global]
+      skills: [devops-engineer]
+
+  render:
+    name: Render
+    type: rest_api
+    category: hosting
+    priority: 2
+    description: Cloud hosting for web services
+    base_url: https://api.render.com/v1
+    auth:
+      type: bearer
+      env_var: RENDER_API_KEY
+    capabilities:
+      - list_services
+      - deploy_service
+      - get_logs
+      - manage_env_vars
+    pricing:
+      tier: free
+      free_limit: "750 hours/month"
+      paid_starts: "$7/month"
+    auto_connect_when:
+      keywords: [render, hosting, deploy]
+      skills: [devops-engineer]
+
+  netlify:
+    name: Netlify
+    type: rest_api
+    category: hosting
+    priority: 1
+    description: Web hosting with CI/CD
+    base_url: https://api.netlify.com/api/v1
+    auth:
+      type: bearer
+      env_var: NETLIFY_ACCESS_TOKEN
+    capabilities:
+      - deploy_site
+      - list_sites
+      - create_site
+      - manage_dns
+      - manage_functions
+    pricing:
+      tier: free
+      free_limit: "100GB bandwidth"
+      paid_starts: "$19/month"
+    auto_connect_when:
+      keywords: [netlify, static, jamstack, deploy]
+      skills: [devops-engineer]
+
+# =============================================================================
+# v5.1 ADDITIONAL UTILITY MCPs (NEW - 2 MCPs)
+# =============================================================================
+
+utilities:
+  algolia:
+    name: Algolia
+    type: rest_api
+    category: search
+    priority: 2
+    description: Search and discovery API
+    base_url: https://APPLICATION_ID.algolia.net/1
+    auth:
+      type: api_key
+      env_var: ALGOLIA_API_KEY
+    capabilities:
+      - search
+      - add_objects
+      - delete_objects
+      - browse_index
+    pricing:
+      tier: free
+      free_limit: "10K records"
+      paid_starts: "$29/month"
+    auto_connect_when:
+      keywords: [algolia, search, index, autocomplete]
+      skills: [search-expert]
+
+  segment:
+    name: Segment
+    type: rest_api
+    category: analytics
+    priority: 2
+    description: Customer data platform
+    base_url: https://api.segment.io/v1
+    auth:
+      type: basic
+      env_var: SEGMENT_WRITE_KEY
+    capabilities:
+      - track
+      - identify
+      - page
+      - group
+    pricing:
+      tier: free
+      free_limit: "1K visitors/month"
+      paid_starts: "$120/month"
+    auto_connect_when:
+      keywords: [segment, analytics, cdp, tracking]
+      skills: [analytics-tracking]
+
+# =============================================================================
+# v4.0 SAAS & PAYMENTS MCPs (NEW)
+# =============================================================================
+
+payments:
+  stripe:
+    name: Stripe
+    type: mcp_server
+    category: payments
+    priority: 1
+    description: Payment processing, subscriptions, and billing management
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "stripe-mcp"]
+    auth:
+      type: api_key
+      env_var: STRIPE_SECRET_KEY
+    capabilities:
+      - create_checkout
+      - manage_subscriptions
+      - list_customers
+      - get_invoices
+      - create_payment_intent
+      - webhooks
+    pricing:
+      tier: paid
+      free_limit: "Test mode unlimited"
+      paid_starts: "2.9% + 30¢ per transaction"
+    auto_connect_when:
+      keywords: [stripe, payment, checkout, subscription, billing, invoice]
+      skills: [fullstack-blueprint-stack, stripe-payments]
+
+auth_providers:
+  clerk:
+    name: Clerk
+    type: rest_api
+    category: auth
+    priority: 1
+    description: User authentication, session management, and organizations
+    base_url: https://api.clerk.dev/v1
+    auth:
+      type: bearer
+      env_var: CLERK_SECRET_KEY
+    capabilities:
+      - list_users
+      - manage_sessions
+      - create_invitation
+      - manage_organizations
+      - jwt_templates
+    rate_limit:
+      requests_per_minute: 500
+    pricing:
+      tier: free
+      free_limit: "10K MAU"
+      paid_starts: "$25/month"
+    auto_connect_when:
+      keywords: [clerk, auth, user management, session, organization]
+      skills: [clerk-auth-expert, auth-clerk-nextauth]
+
+email:
+  resend:
+    name: Resend
+    type: rest_api
+    category: email
+    priority: 2
+    description: Transactional email with React Email templates
+    base_url: https://api.resend.com
+    auth:
+      type: bearer
+      env_var: RESEND_API_KEY
+    capabilities:
+      - send_email
+      - create_template
+      - list_emails
+      - get_email
+      - batch_send
+    rate_limit:
+      requests_per_second: 10
+    pricing:
+      tier: free
+      free_limit: "100 emails/day"
+      paid_starts: "$20/month"
+    auto_connect_when:
+      keywords: [email, resend, transactional, react email]
+      skills: [resend-email, email-resend]
+
+analytics:
+  posthog:
+    name: PostHog
+    type: rest_api
+    category: analytics
+    priority: 2
+    description: Product analytics, feature flags, and A/B testing
+    base_url: https://app.posthog.com/api
+    auth:
+      type: api_key
+      env_var: POSTHOG_API_KEY
+    capabilities:
+      - capture_event
+      - feature_flags
+      - get_insights
+      - create_experiment
+      - user_properties
+    rate_limit:
+      requests_per_minute: 600
+    pricing:
+      tier: free
+      free_limit: "1M events/month"
+      paid_starts: "$0.00031/event"
+    auto_connect_when:
+      keywords: [analytics, posthog, tracking, feature flag, ab test]
+      skills: [analytics-tracking]
+
+# =============================================================================
+# v4.0 COMMUNICATION MCPs (NEW)
+# =============================================================================
+
+communication:
+  discord:
+    name: Discord
+    type: mcp_server
+    category: communication
+    priority: 2
+    description: Discord bot interactions and server management
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-discord"]
+    auth:
+      type: token
+      env_var: DISCORD_BOT_TOKEN
+    capabilities:
+      - send_message
+      - read_channels
+      - manage_roles
+      - slash_commands
+      - embed_message
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [discord, bot, server, guild, channel]
+      skills: [fullstack-blueprint-stack, discord-bot-expert]
+
+  linear:
+    name: Linear
+    type: mcp_server
+    category: productivity
+    priority: 2
+    description: Issue tracking and project management
+    connection:
+      type: mcp_stdio
+      command: npx
+      args: ["-y", "@anthropic/mcp-linear"]
+    auth:
+      type: api_key
+      env_var: LINEAR_API_KEY
+    capabilities:
+      - create_issue
+      - list_projects
+      - update_issue
+      - list_cycles
+      - assign_issue
+    pricing:
+      tier: free
+      free_limit: "250 issues"
+      paid_starts: "$8/user/month"
+    auto_connect_when:
+      keywords: [linear, issue, sprint, project, cycle]
+      skills: [devops-automation-stack]
+
+# =============================================================================
+# v4.0 WEB3 ADDITIONAL MCPs (NEW)
+# =============================================================================
+
+web3_additional:
+  pump_fun:
+    name: Pump.fun
+    type: rest_api
+    category: blockchain
+    priority: 1
+    description: Solana meme coin bonding curves and token launches
+    base_url: https://frontend-api.pump.fun
+    auth:
+      type: none
+    capabilities:
+      - get_token_info
+      - get_bonding_curve
+      - get_trades
+      - get_holders
+      - get_trending
+    rate_limit:
+      requests_per_minute: 60
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [pump.fun, pump fun, bonding curve, meme coin, token launch]
+      skills: [solana-2025-stack, bonding-curve-master]
+
+  dexscreener:
+    name: DEX Screener
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Multi-chain DEX pair analytics and charts
+    base_url: https://api.dexscreener.com/latest
+    auth:
+      type: none
+    capabilities:
+      - search_pairs
+      - get_pair_info
+      - get_token_pairs
+      - get_trending
+    rate_limit:
+      requests_per_minute: 300
+    pricing:
+      tier: free
+      free_limit: unlimited
+    auto_connect_when:
+      keywords: [dexscreener, chart, pair, liquidity, dex]
+      skills: [defi-data-analyst]
+
+  tensor:
+    name: Tensor NFT
+    type: rest_api
+    category: blockchain
+    priority: 2
+    description: Solana NFT marketplace analytics and trading
+    base_url: https://api.tensor.so/graphql
+    auth:
+      type: api_key
+      env_var: TENSOR_API_KEY
+    capabilities:
+      - get_collection_stats
+      - get_listings
+      - get_bids
+      - get_floor_price
+    rate_limit:
+      requests_per_minute: 100
+    pricing:
+      tier: free
+      free_limit: "10K requests/day"
+      paid_starts: "$49/month"
+    auto_connect_when:
+      keywords: [tensor, nft, collection, floor, listings]
+      skills: [metaplex-core, nft-agent]
+
+# =============================================================================
+# v4.0 REALTIME MCPs (NEW)
+# =============================================================================
+
+realtime:
+  liveblocks:
+    name: Liveblocks
+    type: rest_api
+    category: realtime
+    priority: 3
+    description: Real-time collaboration and multiplayer features
+    base_url: https://api.liveblocks.io
+    auth:
+      type: bearer
+      env_var: LIVEBLOCKS_SECRET_KEY
+    capabilities:
+      - create_room
+      - broadcast_event
+      - get_active_users
+      - get_storage
+    rate_limit:
+      requests_per_minute: 100
+    pricing:
+      tier: free
+      free_limit: "25 MAU"
+      paid_starts: "$59/month"
+    auto_connect_when:
+      keywords: [realtime, collaborative, multiplayer, liveblocks, cursors]
+      skills: [realtime-multiplayer]
+
+# =============================================================================
+# UPDATED CONNECTION GROUPS (v4.0)
+# =============================================================================
+
+groups_v40:
+  # v4.0 NEW Groups
+  ai_development:
+    connections: [langsmith, vercel_ai, context7, sequential_thinking]
+    description: AI/LLM development with observability and streaming
+
+  saas_complete:
+    connections: [stripe, clerk, resend, posthog, supabase]
+    description: Full SaaS stack - payments, auth, email, analytics, database
+
+  web3_defi:
+    connections: [jupiter, helius, pump_fun, dexscreener, birdeye]
+    description: DeFi trading and token analytics
+
+  nft_stack:
+    connections: [helius, tensor, solana]
+    description: NFT analytics and marketplace
+
+  communication_stack:
+    connections: [discord, linear, slack, notion]
+    description: Team communication and project management
+
+  # v3.1 Groups
+  research_full:
+    connections: [brave_search, exa, firecrawl, tavily, jina, santiment, tweetscout]
+    description: Full research and web intelligence stack
+
+  browser_automation:
+    connections: [playwright, stagehand, screenpipe]
+    description: Browser and desktop automation
+
+  ai_powered:
+    connections: [context7, sequential_thinking, memory, exa]
+    description: AI-enhanced development with memory
+
+  # v3.2 Groups
+  storage_layer:
+    connections: [qdrant, mem0, neo4j, graphiti, supabase]
+    description: Complete 5-storage architecture (vectors, memory, graphs, temporal, structured)
+
+  solana_full:
+    connections: [jupiter, solana, anchor, helius]
+    description: Full Solana development stack with Anchor (THE MOAT)
+
+  infra_complete:
+    connections: [docker, github, supabase, sentry]
+    description: Complete infrastructure and DevOps
+
+  # Composite Stacks
+  full_builder:
+    connections: [github, supabase, docker, qdrant, mem0, context7]
+    description: Everything needed for full-stack development
+
+  defi_builder:
+    connections: [jupiter, solana, anchor, helius, birdeye, supabase]
+    description: Complete DeFi/Solana application stack
+
+  # v5.1 NEW Groups
+  ai_ml_complete:
+    connections: [openai, anthropic, groq, replicate, together, huggingface, langsmith, vercel_ai]
+    description: Full AI/ML provider stack
+
+  evm_development:
+    connections: [alchemy, infura, etherscan, the_graph]
+    description: Complete EVM/Ethereum development
+
+  database_modern:
+    connections: [neon, turso, planetscale, redis_upstash, mongodb, supabase]
+    description: Modern serverless databases
+
+  devops_monitoring:
+    connections: [datadog, grafana_cloud, newrelic, sentry, cloudflare]
+    description: Full observability stack
+
+  hosting_complete:
+    connections: [vercel, railway, flyio, render, netlify]
+    description: Multi-platform hosting options
+
+  saas_builder:
+    connections: [stripe, clerk, resend, posthog, algolia, segment, supabase]
+    description: Complete SaaS tech stack
+
+  multi_chain:
+    connections: [helius, jupiter, alchemy, infura, the_graph, birdeye]
+    description: Cross-chain development (Solana + EVM)
